@@ -4,7 +4,7 @@
 // Las imágenes están en la carpeta img/
 // =========================================================
 const IMG = {
-  logo:      "img/retailer-thumb.png",
+  logo:      "img/retailer-thumb.png?v=6",
   comet:     "img/flyer-comet.jpg",
   coop:      "img/flyer-coop.jpg",
   unieuro:   "img/flyer-unieuro.jpg",
