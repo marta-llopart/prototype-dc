@@ -101,10 +101,21 @@
   --color-surface-accent-04-subtler: var(--color-green-100);
   --color-content-accent-04-bolder: #4e7125;
   --color-content-callout-01: var(--color-grey-700); /* tab inactiva */
+  --color-teal-200: #b6e5e5;  --color-teal-600: #59c3c4;  --color-teal-900: #266b6c;
+  --color-purple-900: #5b3c6c;
+  --color-surface-action-primary-selected: var(--color-red-600);
+  --color-surface-accent-05-bolder: var(--color-teal-900);
+  --color-surface-accent-06-subtler: var(--color-purple-100);
+  --color-content-accent-06-bolder: var(--color-purple-900);
+  --color-border-callout-01-start: #c85062; /* base-specific/raspberry */
+  --color-border-callout-04-start: #98ca5d; /* green/600 */
+  --radius-sm: 4px;
+  --radius-search: 36px;
 }
 
 /* Variante B para tests A/B: se activa añadiendo ?variante=b a la URL */
 body.variante-b {
+  --color-surface-action-primary-selected: var(--color-teal-800);
   --color-surface-action-primary-default: var(--color-teal-800);
   --color-content-action-primary-selected: var(--color-teal-800);
   --color-content-action-ghost-default: var(--color-teal-800);

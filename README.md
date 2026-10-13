@@ -6,9 +6,14 @@ Prototipo web de la app DoveConviene para probar diseños rápidamente y hacer t
 
 | Archivo | Para qué sirve |
 |---|---|
-| `index.html` | La estructura de la pantalla (cabecera, carrusel, tiendas, barra inferior) |
-| `styles.css` | El aspecto visual. Arriba del todo están los **tokens** (colores, radios, tipografía) |
-| `app.js` | Los datos de ejemplo (folletos y tiendas) y la lógica de la variante A/B |
+| `index.html` | La estructura de la Home (header, buscador, stories, barra inferior) |
+| `styles.css` | Los **tokens** del design system (colores, tipografía, espaciados, radios, sombras) |
+| `components.css` | Los **componentes** (botones, flyerCard, cardStore, offersCards, bottom nav…) |
+| `app.js` | Los datos de ejemplo y el orden de las secciones de la Home |
+| `icons.js` | Los iconos del Figma de foundations |
+| `img/` | Imágenes de ejemplo (portadas de folletos, mapas, ilustración) |
+
+Fuentes en Figma: *DC - App Specific Foundations*, *App Components V2.0* y el diseño *iPhone_HOME*.
 
 ## Verlo en tu ordenador
 
