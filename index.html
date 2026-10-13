@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DoveConviene – Prototipo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Marco de móvil: todo el prototipo vive dentro -->
+  <div class="phone">
+
+    <!-- CABECERA -->
+    <header class="header">
+      <div class="header__top">
+        <span class="logo">DoveConviene</span>
+        <button class="icon-btn" aria-label="Notifiche">🔔</button>
+      </div>
+      <div class="location">📍 Milano</div>
+      <label class="search">
+        <span>🔍</span>
+        <input type="text" placeholder="Cerca prodotti, negozi, marche…">
+      </label>
+    </header>
+
+    <main class="content">
+
+      <!-- CATEGORÍAS -->
+      <section class="section">
+        <div class="chips">
+          <button class="chip chip--active">Tutti</button>
+          <button class="chip">Supermercati</button>
+          <button class="chip">Elettronica</button>
+          <button class="chip">Casa</button>
+          <button class="chip">Profumerie</button>
+        </div>
+      </section>
+
+      <!-- CARRUSEL DE FOLLETOS -->
+      <section class="section">
+        <div class="section__title">
+          <h2>Volantini vicino a te</h2>
+          <a href="#">Vedi tutti</a>
+        </div>
+        <div class="carousel" id="flyers">
+          <!-- Las tarjetas se generan desde app.js -->
+        </div>
+      </section>
+
+      <!-- TIENDAS -->
+      <section class="section">
+        <div class="section__title">
+          <h2>I tuoi negozi preferiti</h2>
+        </div>
+        <div class="stores" id="stores">
+          <!-- Se generan desde app.js -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BARRA DE NAVEGACIÓN INFERIOR -->
+    <nav class="tabbar">
+      <a class="tab tab--active" href="#"><span>🏠</span>Home</a>
+      <a class="tab" href="#"><span>🔍</span>Cerca</a>
+      <a class="tab" href="#"><span>❤️</span>Preferiti</a>
+      <a class="tab" href="#"><span>💳</span>Carte</a>
+      <a class="tab" href="#"><span>👤</span>Profilo</a>
+    </nav>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
