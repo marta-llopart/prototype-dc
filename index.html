@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DoveConviene – Prototipo</title>
+  <!-- Tipografía Inter (la del design system) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,11 +18,11 @@
     <header class="header">
       <div class="header__top">
         <span class="logo">DoveConviene</span>
-        <button class="icon-btn" aria-label="Notifiche">🔔</button>
+        <button class="icon-btn" aria-label="Notifiche"><span class="icon" data-icon="notification"></span></button>
       </div>
-      <div class="location">📍 Roma</div>
+      <div class="location"><span class="icon icon--sm" data-icon="location"></span> Roma</div>
       <label class="search">
-        <span>🔍</span>
+        <span class="icon" data-icon="lens"></span>
         <input type="text" placeholder="Cerca prodotti, negozi, marche…">
       </label>
     </header>
@@ -40,7 +44,7 @@
       <section class="section">
         <div class="section__title">
           <h2>Volantini vicino a te</h2>
-          <a href="#">Vedi tutti</a>
+          <a href="#">Vedi tutti <span class="icon icon--sm" data-icon="chevronRight"></span></a>
         </div>
         <div class="carousel" id="flyers">
           <!-- Las tarjetas se generan desde app.js -->
@@ -61,15 +65,16 @@
 
     <!-- BARRA DE NAVEGACIÓN INFERIOR -->
     <nav class="tabbar">
-      <a class="tab tab--active" href="#"><span>🏠</span>Home</a>
-      <a class="tab" href="#"><span>🔍</span>Cerca</a>
-      <a class="tab" href="#"><span>❤️</span>Preferiti</a>
-      <a class="tab" href="#"><span>💳</span>Carte</a>
-      <a class="tab" href="#"><span>👤</span>Profilo</a>
+      <a class="tab tab--active" href="#"><span class="icon" data-icon="home"></span>Home</a>
+      <a class="tab" href="#"><span class="icon" data-icon="flyer"></span>Volantini</a>
+      <a class="tab" href="#"><span class="icon" data-icon="heart"></span>Preferiti</a>
+      <a class="tab" href="#"><span class="icon" data-icon="card"></span>Carte</a>
+      <a class="tab" href="#"><span class="icon" data-icon="profile"></span>Profilo</a>
     </nav>
 
   </div>
 
   <script src="app.js"></script>
+  <script src="icons.js"></script>
 </body>
 </html>

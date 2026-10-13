@@ -3,11 +3,12 @@
 // Edita estas listas para cambiar lo que se ve en pantalla.
 // =========================================================
 const volantini = [
-  { negozio: "Esselunga", scadenza: "Fino al 20 ott", colore: "#d62828" },
-  { negozio: "Coop",      scadenza: "Fino al 22 ott", colore: "#e63946" },
-  { negozio: "Lidl",      scadenza: "Fino al 19 ott", colore: "#1d4ed8" },
-  { negozio: "MediaWorld",scadenza: "Fino al 27 ott", colore: "#111827" },
-  { negozio: "Carrefour", scadenza: "Fino al 25 ott", colore: "#2563eb" },
+  // "colore" usa los colores de la paleta del design system
+  { negozio: "Esselunga", scadenza: "Fino al 20 ott", colore: "var(--color-red-700)" },
+  { negozio: "Coop",      scadenza: "Fino al 22 ott", colore: "var(--color-orange-700)" },
+  { negozio: "Lidl",      scadenza: "Fino al 19 ott", colore: "var(--color-teal-800)" },
+  { negozio: "MediaWorld",scadenza: "Fino al 27 ott", colore: "var(--color-grey-800)" },
+  { negozio: "Carrefour", scadenza: "Fino al 25 ott", colore: "var(--color-purple-700)" },
 ];
 
 const negozi = ["Esselunga", "Coop", "Lidl", "Conad", "Ikea", "Tigotà", "Pam", "Eurospin"];
