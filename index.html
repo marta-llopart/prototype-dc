@@ -8,24 +8,30 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <!-- Si cambias un .css o .js, sube este número (v=4 → v=5) para que el navegador no use una copia antigua -->
+  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="components.css?v=4">
 </head>
 <body>
   <!-- Marco de móvil: todo el prototipo vive dentro -->
   <div class="phone">
 
-    <!-- CABECERA -->
-    <header class="header">
-      <div class="header__top">
-        <span class="logo">DoveConviene</span>
-        <button class="icon-btn" aria-label="Notifiche"><span class="icon" data-icon="notification"></span></button>
-      </div>
-      <div class="location"><span class="icon icon--sm" data-icon="location"></span> Roma</div>
-      <label class="search">
-        <span class="icon" data-icon="lens"></span>
-        <input type="text" placeholder="Cerca prodotti, negozi, marche…">
-      </label>
+    <!-- TOP BAR (iosTopBar + título "ti trovi") -->
+    <header class="top-bar">
+      <button class="top-bar-title">
+        Ti trovi a <strong>Roma</strong>
+        <span class="icon icon--sm" data-icon="expandMore"></span>
+      </button>
+      <button class="btn-icon top-bar__right" aria-label="Notifiche">
+        <span class="icon" data-icon="notification"></span>
+      </button>
     </header>
+
+    <!-- BUSCADOR -->
+    <label class="search">
+      <span class="icon" data-icon="lens"></span>
+      <input type="text" placeholder="Cerca prodotti, negozi, marche…">
+    </label>
 
     <main class="content">
 
@@ -40,41 +46,48 @@
         </div>
       </section>
 
-      <!-- CARRUSEL DE FOLLETOS -->
+      <!-- CARRUSEL DE FOLLETOS (flyerCard) -->
       <section class="section">
         <div class="section__title">
           <h2>Volantini vicino a te</h2>
-          <a href="#">Vedi tutti <span class="icon icon--sm" data-icon="chevronRight"></span></a>
+          <a class="btn btn--ghost btn--small" href="#">Vedi tutti <span class="icon icon--sm" data-icon="chevronRight"></span></a>
         </div>
         <div class="carousel" id="flyers">
           <!-- Las tarjetas se generan desde app.js -->
         </div>
       </section>
 
-      <!-- TIENDAS -->
+      <!-- TIENDAS (cardStore) -->
       <section class="section">
         <div class="section__title">
-          <h2>I tuoi negozi preferiti</h2>
+          <h2>Negozi vicino a te</h2>
+          <a class="btn btn--ghost btn--small" href="#">Vedi tutti <span class="icon icon--sm" data-icon="chevronRight"></span></a>
         </div>
-        <div class="stores" id="stores">
+        <div class="carousel" id="stores">
           <!-- Se generan desde app.js -->
         </div>
       </section>
 
+      <!-- EJEMPLO DE BOTONES (button) -->
+      <section class="section" style="padding: 0 16px; display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn--primary btn--large">Attiva notifiche</button>
+        <button class="btn btn--secondary btn--large">Più tardi</button>
+      </section>
+
     </main>
 
-    <!-- BARRA DE NAVEGACIÓN INFERIOR -->
-    <nav class="tabbar">
-      <a class="tab tab--active" href="#"><span class="icon" data-icon="home"></span>Home</a>
-      <a class="tab" href="#"><span class="icon" data-icon="flyer"></span>Volantini</a>
-      <a class="tab" href="#"><span class="icon" data-icon="heart"></span>Preferiti</a>
-      <a class="tab" href="#"><span class="icon" data-icon="card"></span>Carte</a>
-      <a class="tab" href="#"><span class="icon" data-icon="profile"></span>Profilo</a>
+    <!-- BOTTOM NAV BAR (iosBottomNavBar) -->
+    <nav class="bottom-nav">
+      <a class="bottom-nav__tab bottom-nav__tab--selected" href="#"><span class="icon" data-icon="home"></span>Home</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="heartFill"></span>Preferiti</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="card"></span>Carte</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="myListFill"></span>La mia lista</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="profile"></span>Account</a>
     </nav>
 
   </div>
 
-  <script src="app.js"></script>
-  <script src="icons.js"></script>
+  <script src="app.js?v=4"></script>
+  <script src="icons.js?v=4"></script>
 </body>
 </html>
