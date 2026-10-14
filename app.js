@@ -20,8 +20,15 @@ const categorieTabs = ["Featured", "Supermarkets", "Discount Stores", "Electroni
   "Home Improvement", "Furniture", "Automotive", "Health & Wellness", "Baby & Toys", "Pets",
   "Sports & Fashion", "Banking & Insurance", "Travel", "Restaurants", "Services"];
 
-// Stories: tipo = "sponsored-unread" | "sponsored" | "unread" | "read"
-const stories = ["sponsored-unread", "sponsored", "unread", "unread", "read", "read", "read", "read", "read", "read"];
+// Stories (carouselStories): nombre del retailer, logo y estado
+// estado = "sponsored-unread" | "sponsored" | "unread" | "read"
+const stories = [
+  ["MediaWorld", "mediaworld", "sponsored-unread"], ["Conad", "conad", "sponsored-unread"],
+  ["Carrefour", "carrefour", "unread"], ["Unieuro", "unieuro", "unread"],
+  ["Coop", "coop", "read"], ["Penny", "penny", "read"], ["Euronics", "euronics", "read"],
+  ["Pam", "pam", "read"], ["Lidl", "lidl", "read"], ["Esselunga", "esselunga", "read"],
+  ["Trony", "trony", "read"], ["Tigotà", "tigota", "read"],
+].map(([nome, logo, stato]) => ({ nome, logo: `img/stories/${logo}.png`, stato }));
 
 // Un folleto: imagen, retailer, distancia y etiqueta (tag: "nuovo" | "arrivo" | null)
 const f = (img, tag = "nuovo", retailer = "Retailer") => ({ img, tag, retailer, distanza: "978 m" });
@@ -121,10 +128,10 @@ const BOLT = '<svg class="story__bolt" viewBox="0 0 20 20"><circle cx="10" cy="1
 document.getElementById("cat-tabs").innerHTML = categorieTabs
   .map((t, i) => `<button class="cat-tab ${i === 0 ? "cat-tab--selected" : ""}">${t}</button>`).join("");
 
-document.getElementById("stories").innerHTML = stories.map(t => `
-  <div class="story ${t.includes("unread") ? "story--unread" : ""} ${t.startsWith("sponsored") ? "story--sponsored" : ""}">
-    <div class="story__img"><img src="${IMG.logo}" alt="">${t.startsWith("sponsored") ? BOLT : ""}</div>
-    <div class="story__label">Retailer name</div>
+document.getElementById("stories").innerHTML = stories.map(st => `
+  <div class="story ${st.stato.includes("unread") ? "story--unread" : ""} ${st.stato.startsWith("sponsored") ? "story--sponsored" : ""}">
+    <div class="story__img"><img src="${st.logo}" alt="${st.nome}">${st.stato.startsWith("sponsored") ? BOLT : ""}</div>
+    <div class="story__label">${st.nome}</div>
   </div>`).join("");
 
 document.getElementById("sections").innerHTML = sezioni.map(s => {

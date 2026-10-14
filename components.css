@@ -176,7 +176,7 @@ img { display: block; }
   display: flex; gap: var(--spacing-lg); padding: var(--spacing-md) var(--spacing-xl);
   margin: 0 calc(var(--spacing-xl) * -1); overflow-x: auto; scrollbar-width: none;
 }
-.story { width: 64px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-xs); }
+.story { width: 64px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-md); } /* nombre siempre a 8px del círculo, como MediaWorld y Conad */
 .story__img {
   position: relative; width: 64px; height: 64px; border-radius: 50%;
   border: 2.2px solid var(--color-border-default); background: var(--color-surface-default);
@@ -187,7 +187,6 @@ img { display: block; }
 .story__label {
   width: 100%; text-align: center; font: var(--text-xs); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.story--sponsored .story__label { margin-top: 4px; }
 
 /* =========================================================
    SECTION TITLE — title (con divider) + "Scopri di più"
