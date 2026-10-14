@@ -36,7 +36,13 @@ const f = (img, tag = "nuovo", retailer = "Retailer") => ({ img, tag, retailer, 
 // Secciones de la Home, en el mismo orden que el diseño de Figma
 const sezioni = [
   { tipo: "carousel", titolo: "Picked for you", icono: "heartFill", link: "See more",
-    items: [f(IMG.comet, "arrivo"), f(IMG.coop), f(IMG.unieuro), f(IMG.comet), f(IMG.coop)] },
+    items: [
+      { img: "img/flyer-picked-arcaplanet.jpg", logo: "img/logos/arcaplanet.png", retailer: "Arcaplanet", distanza: "643 m",  tag: "nuovo" },
+      { img: "img/flyer-picked-coop.jpg",       logo: "img/logos/coop.png",       retailer: "Coop",       distanza: "978 m",  tag: "nuovo" },
+      { img: "img/flyer-picked-lidl.jpg",       logo: "img/logos/lidl.png",       retailer: "Lidl",       distanza: "1.5 km", tag: null },
+      { img: "img/flyer-picked-pam.jpg",        logo: "img/logos/pam.png",        retailer: "Pam",        distanza: "1.8 km", tag: null },
+      { img: "img/flyer-picked-unieuro.jpg",    logo: "img/logos/unieuro.png",    retailer: "Unieuro",    distanza: "1.5 km", tag: null },
+    ] },
 
   { tipo: "grid", items: Array.from({ length: 20 }, (_, i) => i === 5 ? { pub: true } : f(IMG.unieuro)) },
 
@@ -76,7 +82,7 @@ const flyerCard = (x, size = "small") => `
   <article class="flyer-card ${size === "small" ? "flyer-card--small" : ""}">
     <div class="flyer-card__img"><img src="${x.img}" alt="${x.retailer} flyer"></div>
     <div class="flyer-card__txt">
-      <div class="flyer-card__retailer"><span class="thumb"><img src="${IMG.logo}" alt=""></span>${x.retailer}</div>
+      <div class="flyer-card__retailer"><span class="thumb"><img src="${x.logo || IMG.logo}" alt=""></span>${x.retailer}</div>
       <div class="flyer-card__meta">${x.distanza}${x.tag ? (size === "small" ? TAGS[x.tag] : TAGS[x.tag].replace('tag ', 'tag tag--md ')) : ""}</div>
     </div>
   </article>`;
