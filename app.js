@@ -4,7 +4,7 @@
 // Las imágenes están en la carpeta img/
 // =========================================================
 const IMG = {
-  logo:      "img/retailer-thumb.png?v=6",
+  logo:      "img/retailer-thumb.png?v=8",
   comet:     "img/flyer-comet.jpg",
   coop:      "img/flyer-coop.jpg",
   unieuro:   "img/flyer-unieuro.jpg",
@@ -16,9 +16,9 @@ const IMG = {
 };
 
 // Pestañas de categoría (carouselTabCategories)
-const categorieTabs = ["In evidenza", "Iper e Super", "Discount", "Elettronica", "Cura Casa e Corpo",
-  "Bricolage", "Arredamento", "Motori", "Salute e Benessere", "Infanzia e Giochi", "Animali",
-  "Sport e Moda", "Banche e Assicurazioni", "Viaggi", "Ristoranti", "Servizi"];
+const categorieTabs = ["Featured", "Supermarkets", "Discount Stores", "Electronics", "Home & Personal Care",
+  "Home Improvement", "Furniture", "Automotive", "Health & Wellness", "Baby & Toys", "Pets",
+  "Sports & Fashion", "Banking & Insurance", "Travel", "Restaurants", "Services"];
 
 // Stories: tipo = "sponsored-unread" | "sponsored" | "unread" | "read"
 const stories = ["sponsored-unread", "sponsored", "unread", "unread", "read", "read", "read", "read", "read", "read"];
@@ -28,46 +28,46 @@ const f = (img, tag = "nuovo", retailer = "Retailer") => ({ img, tag, retailer, 
 
 // Secciones de la Home, en el mismo orden que el diseño de Figma
 const sezioni = [
-  { tipo: "carousel", titolo: "Scelti da te", icono: "heartFill", link: "Scopri di più",
+  { tipo: "carousel", titolo: "Picked for you", icono: "heartFill", link: "See more",
     items: [f(IMG.comet, "arrivo"), f(IMG.coop), f(IMG.unieuro), f(IMG.comet), f(IMG.coop)] },
 
   { tipo: "grid", items: Array.from({ length: 20 }, (_, i) => i === 5 ? { pub: true } : f(IMG.unieuro)) },
 
-  { tipo: "carousel2", titolo: "I più letti della settimana",
+  { tipo: "carousel2", titolo: "Most popular this week",
     items: Array.from({ length: 8 }, () => f(IMG.unieuro)) },
 
-  { tipo: "carousel", titolo: "Titolo Carosello flyer lorem ipsum", items: Array.from({ length: 5 }, () => f(IMG.unieuro)) },
-  { tipo: "carousel", titolo: "Titolo Carosello flyer lorem ipsum", items: Array.from({ length: 5 }, () => f(IMG.unieuro)) },
-  { tipo: "carousel", titolo: "Titolo Carosello flyer lorem ipsum", items: Array.from({ length: 5 }, () => f(IMG.unieuro)) },
+  { tipo: "carousel", titolo: "Flyer carousel title lorem ipsum", items: Array.from({ length: 5 }, () => f(IMG.unieuro)) },
+  { tipo: "carousel", titolo: "Flyer carousel title lorem ipsum", items: Array.from({ length: 5 }, () => f(IMG.unieuro)) },
+  { tipo: "carousel", titolo: "Flyer carousel title lorem ipsum", items: Array.from({ length: 5 }, () => f(IMG.unieuro)) },
 
-  { tipo: "carousel", titolo: "Offerte in Anteprima", link: "Scopri di più",
+  { tipo: "carousel", titolo: "Sneak peek deals", link: "See more",
     items: [f(IMG.unieuro), f(IMG.unieuro), f(IMG.unieuro, "arrivo"), f(IMG.unieuro), f(IMG.unieuro)] },
 
-  { tipo: "offerte", titolo: "Le tue offerte" },
+  { tipo: "offerte", titolo: "Your deals" },
 
-  { tipo: "negozi", titolo: "I negozi intorno a te",
-    items: Array.from({ length: 9 }, (_, i) => ({ nome: "Retailer Name", distanza: "3,2 Km", map: i % 2 ? IMG.map2 : IMG.map1 })) },
+  { tipo: "negozi", titolo: "Stores near you",
+    items: Array.from({ length: 9 }, (_, i) => ({ nome: "Retailer Name", distanza: "3.2 km", map: i % 2 ? IMG.map2 : IMG.map1 })) },
 
-  { tipo: "carousel", titolo: "Nuovi prodotti da provare",
+  { tipo: "carousel", titolo: "New products to try",
     items: [f(IMG.loacker, "nuovo", "Brand"), f(IMG.adventuros, null, "Brand"), f(IMG.loacker, "nuovo", "Brand"), f(IMG.adventuros, null, "Brand")] },
 
-  { tipo: "categorie", titolo: "Scopri le categorie",
-    items: [["iperSuper", "Iper e Super"], ["discount", "Discount"], ["elettronica", "Elettronica"],
-            ["curaCasaCorpo", "Cura Casa e Corpo"], ["bricolage", "Bricolage"], ["arredamento", "Arredamento"]] },
+  { tipo: "categorie", titolo: "Explore categories",
+    items: [["iperSuper", "Supermarkets"], ["discount", "Discount Stores"], ["elettronica", "Electronics"],
+            ["curaCasaCorpo", "Home & Personal Care"], ["bricolage", "Home Improvement"], ["arredamento", "Furniture"]] },
 ];
 
 // =========================================================
 // COMPONENTES (no hace falta tocar esto)
 // =========================================================
 const TAGS = {
-  nuovo:  '<span class="tag tag--green">Nuovo</span>',
-  arrivo: '<span class="tag tag--purple">In arrivo</span>',
+  nuovo:  '<span class="tag tag--green">New</span>',
+  arrivo: '<span class="tag tag--purple">Coming soon</span>',
 };
 
 // flyerCard — size "small" (132) o "default" (164)
 const flyerCard = (x, size = "small") => `
   <article class="flyer-card ${size === "small" ? "flyer-card--small" : ""}">
-    <div class="flyer-card__img"><img src="${x.img}" alt="Volantino ${x.retailer}"></div>
+    <div class="flyer-card__img"><img src="${x.img}" alt="${x.retailer} flyer"></div>
     <div class="flyer-card__txt">
       <div class="flyer-card__retailer"><span class="thumb"><img src="${IMG.logo}" alt=""></span>${x.retailer}</div>
       <div class="flyer-card__meta">${x.distanza}${x.tag ? (size === "small" ? TAGS[x.tag] : TAGS[x.tag].replace('tag ', 'tag tag--md ')) : ""}</div>
@@ -77,7 +77,7 @@ const flyerCard = (x, size = "small") => `
 const pubNative = () => `
   <article class="pub-native">
     <div class="pub-native__card">
-      <div class="pub-native__header">Inserzione
+      <div class="pub-native__header">Sponsored
         <svg viewBox="0 0 12 12" fill="none" stroke="#1da1f2" stroke-width="1.4"><path d="M3 2.5v7l6-3.5-6-3.5Z"/></svg>
       </div>
       <div class="pub-native__img"></div>
@@ -141,9 +141,9 @@ document.getElementById("sections").innerHTML = sezioni.map(s => {
       return `<section class="section">${sectionTitle(s)}
         <div class="offers">
           <img class="offers__art" src="${IMG.offers}" alt="">
-          ${offersCard("myListFill", "La mia lista del risparmio", "<p>Crea la tua lista della spesa e calcola il risparmio complessivo dei tuoi acquisti</p>", "Inizia ora")}
-          ${offersCard("heartFill", "I miei negozi preferiti", "<p>Non perdere le offerte dei tuoi negozi preferiti! Salvali e rimani aggiornato sulle ultime uscite</p>", "Inizia ora")}
-          ${offersCard("mobile", "La mia posizione", "<strong>Vivi un’esperienza personalizzata</strong><p>Comunicaci la tua <b>posizione esatta</b> per permetterci di mostrarti le offerte più vicine a te.</p>", "Vai ora")}
+          ${offersCard("myListFill", "My savings list", "<p>Create your shopping list and see how much you save on everything you buy</p>", "Get started")}
+          ${offersCard("heartFill", "My favorite stores", "<p>Never miss a deal from your favorite stores! Save them and stay up to date on their latest flyers</p>", "Get started")}
+          ${offersCard("mobile", "My location", "<strong>Get a personalized experience</strong><p>Share your <b>exact location</b> so we can show you the deals closest to you.</p>", "Go now")}
         </div></section>`;
     case "categorie":
       return `<section class="section">${sectionTitle(s)}<div class="menu-list">${s.items.map(([ic, t]) => `

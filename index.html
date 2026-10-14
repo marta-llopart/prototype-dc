@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DoveConviene – Prototipo</title>
+  <title>DoveConviene – Prototype</title>
   <!-- Tipografía Inter (la del design system) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Si cambias un .css o .js, sube este número (v=6 → v=7) para que el navegador no use una copia antigua -->
-  <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="components.css?v=6">
+  <!-- Si cambias un .css o .js, sube este número (v=8 → v=9) para que el navegador no use una copia antigua -->
+  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="components.css?v=8">
 </head>
 <body>
   <!-- Diseño: Figma "iPhone_HOME - section for favorite retailer's flyers" -->
@@ -29,20 +29,20 @@
 
       <div class="top-bar">
         <button class="top-bar-title">
-          Ti trovi a <strong>Bologna - 40138</strong>
+          You're in <strong>Bologna - 40138</strong>
           <span class="icon icon--sm" data-icon="expandMore"></span>
         </button>
-        <button class="btn-icon top-bar__right" aria-label="Mappa">
+        <button class="btn-icon top-bar__right" aria-label="Map">
           <span class="icon" data-icon="map"></span>
         </button>
       </div>
 
       <nav class="tabs">
-        <button class="tab-line tab-line--selected">Per te</button>
+        <button class="tab-line tab-line--selected">For you</button>
         <button class="tab-line">
           <span class="icon icon--sm" data-icon="community"></span>
-          + Risparmio
-          <span class="tag tag--teal">Novità</span>
+          + Savings
+          <span class="tag tag--teal">New</span>
         </button>
       </nav>
     </header>
@@ -52,7 +52,7 @@
       <div style="padding: 16px 16px 0; display: flex; flex-direction: column; gap: 8px;">
         <label class="search">
           <span class="icon" data-icon="lens"></span>
-          <input type="text" placeholder="Cerca prodotti o negozi">
+          <input type="text" placeholder="Search products or stores">
         </label>
         <div class="cat-tabs" id="cat-tabs"></div>
         <div class="masthead">MASTHEAD</div>
@@ -66,15 +66,15 @@
     <!-- BOTTOM NAV BAR (iosBottomNavBar) -->
     <nav class="bottom-nav">
       <a class="bottom-nav__tab bottom-nav__tab--selected" href="#"><span class="icon" data-icon="home"></span>Home</a>
-      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="heartFill"></span>Preferiti</a>
-      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="card"></span>Carte</a>
-      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="myListFill"></span>La mia lista</a>
-      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="profile"></span>Account</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="heartFill"></span>Favorites</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="card"></span>My cards</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="myListFill"></span>My list</a>
+      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="profile"></span>Profile</a>
     </nav>
 
   </div>
 
-  <script src="app.js?v=6"></script>
-  <script src="icons.js?v=6"></script>
+  <script src="app.js?v=8"></script>
+  <script src="icons.js?v=8"></script>
 </body>
 </html>
