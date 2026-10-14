@@ -224,8 +224,8 @@ document.getElementById("view-savings").innerHTML = `
   </div>`;
 
 // Cambiar entre "For you" y "+ Savings" en la misma pantalla
-document.querySelectorAll(".tab-line").forEach(tab => tab.addEventListener("click", () => {
-  document.querySelectorAll(".tab-line").forEach(t => t.classList.toggle("tab-line--selected", t === tab));
+document.querySelectorAll(".tab-line[data-view]").forEach(tab => tab.addEventListener("click", () => {
+  document.querySelectorAll(".tab-line[data-view]").forEach(t => t.classList.toggle("tab-line--selected", t === tab));
   const view = tab.dataset.view;
   document.getElementById("view-home").hidden = view !== "home";
   document.getElementById("view-savings").hidden = view !== "savings";
@@ -270,7 +270,147 @@ const selectable = (sel, cls) => document.querySelectorAll(sel).forEach(el =>
     el.classList.add(cls);
   }));
 selectable("#cat-tabs .cat-tab", "cat-tab--selected");
-selectable(".bottom-nav__tab", "bottom-nav__tab--selected");
+
+
+// =========================================================
+// FAVORITES — página de tiendas favoritas (Figma "FAVORITES_Stores")
+// Edita esta lista para cambiar las tiendas.
+// flyers: [] = la tienda no tiene folletos (se ve el aviso con la campana)
+// notifications: true = notificaciones activadas (botón "Turn off notifications")
+// tag: "nuovo" (New) | "scade" (-2 days) | null
+// =========================================================
+const favoriteStores = [
+  { nome: "Unieuro", logo: "img/logos/unieuro.png", notifications: false, flyers: [
+    { img: "img/favorites/unieuro-1.jpg", distanza: "978 m", tag: "nuovo" },
+    { img: "img/favorites/unieuro-2.jpg", distanza: "978 m", tag: null },
+  ] },
+  { nome: "Conad", logo: "img/stories/conad.png", notifications: true, flyers: [
+    { img: "img/favorites/conad-1.jpg", distanza: "978 m", tag: "nuovo" },
+    { img: "img/favorites/conad-2.jpg", distanza: "978 m", tag: "scade" },
+    { img: "img/favorites/conad-3.jpg", distanza: "978 m", tag: "nuovo" },
+  ] },
+  { nome: "Bimbo Store", logo: "img/favorites/logo-bimbostore.png", notifications: false, flyers: [] },
+];
+
+const FAV_TAGS = { ...TAGS, scade: '<span class="tag tag--orange">-2 days</span>' };
+
+// flyerCard sin nombre de retailer (Size=Small, como en Favorites)
+const favFlyerCard = (x, nome) => `
+  <article class="flyer-card flyer-card--small flyer-card--compact">
+    <div class="flyer-card__img"><img src="${x.img}" alt="${nome} flyer"></div>
+    <div class="flyer-card__txt"><div class="flyer-card__meta">${x.distanza}${x.tag ? FAV_TAGS[x.tag] : ""}</div></div>
+  </article>`;
+
+const notifButton = on => on
+  ? '<button class="btn btn--secondary btn--small btn--block fav-notif" data-on="true">Turn off notifications</button>'
+  : '<button class="btn btn--primary btn--small btn--block fav-notif" data-on="false">Turn on notifications</button>';
+
+const favoriteStore = st => `
+  <section class="fav-store">
+    <div class="fav-store__header">
+      <div class="fav-store__retailer"><span class="thumb thumb--lg"><img src="${st.logo}" alt=""></span><h2>${st.nome}</h2></div>
+      <button class="selection-box fav-store__heart" aria-label="Remove from favorites" aria-pressed="true"><span class="icon" data-icon="heartFill"></span></button>
+    </div>
+    ${st.flyers.length
+      ? `<div class="carousel fav-store__carousel">${st.flyers.map(x => favFlyerCard(x, st.nome)).join("")}</div>${notifButton(st.notifications)}`
+      : `<div class="notice">
+          <img class="notice__art" src="img/favorites/artwork-notifications.png" alt="">
+          <p>There is currently no content available from ${st.nome}. Turn on NOTIFICATIONS to be alerted when new offers are posted.</p>
+          ${notifButton(st.notifications)}
+        </div>`}
+  </section>`;
+
+// Búsquedas guardadas (pestaña "Searches", Figma "FAVORITES_Searches")
+// lines = líneas grises debajo de la ciudad (precio, tiendas, marcas)
+const favoriteSearches = [
+  { nome: "Coffee", citta: "Bologna", lines: ["€1.50 - €4.50", "Aldi, Carrefour, Coop", "Illy, Lavazza, Nescafé"] },
+  { nome: "Milk",   citta: "Bologna", lines: ["Starting at €1.00", "Aldi, Conad, Coop, Esselunga"] },
+];
+
+// cardFavoriteSearch
+const searchCard = x => `
+  <article class="search-card">
+    <div class="search-card__title"><h2>${x.nome}</h2>
+      <button class="btn-icon search-card__delete" aria-label="Delete search"><span class="icon" data-icon="bin"></span></button>
+    </div>
+    <div class="search-card__content"><strong>${x.citta}</strong>${x.lines.map(l => `<p>${l}</p>`).join("")}</div>
+  </article>`;
+
+document.getElementById("view-favorites").innerHTML = `
+  <div class="favorites" data-panel="stores">${favoriteStores.map(favoriteStore).join('<hr class="divider">')}</div>
+  <div class="favorites" data-panel="searches" hidden>
+    <div class="banner-notif">
+      <div class="banner-notif__text">
+        <p>If you want to stay up to date on your searches, turn on notifications.</p>
+        <button class="btn btn--primary btn--small btn--block banner-notif__cta">Turn on notifications</button>
+      </div>
+      <div class="banner-notif__art">
+        <button class="btn-icon banner-notif__close" aria-label="Close"><span class="icon" data-icon="closeCircular"></span></button>
+        <img src="img/favorites/artwork-enable-notifications.png" width="115" height="115" alt="">
+      </div>
+    </div>
+    <div class="search-cards">${favoriteSearches.map(searchCard).join("")}</div>
+    <p class="savings__empty" id="searches-empty" hidden>You have no saved searches yet.</p>
+  </div>`;
+
+// Pestañas Stores / Searches
+document.querySelectorAll("[data-favtab]").forEach(tab => tab.addEventListener("click", () => {
+  document.querySelectorAll("[data-favtab]").forEach(t => t.classList.toggle("tab-line--selected", t === tab));
+  document.querySelectorAll("#view-favorites [data-panel]").forEach(p => p.hidden = p.dataset.panel !== tab.dataset.favtab);
+  window.scrollTo(0, 0);
+}));
+
+// Banner: la X lo cierra; al activar las notificaciones también desaparece
+document.querySelectorAll(".banner-notif__close, .banner-notif__cta").forEach(b =>
+  b.addEventListener("click", () => b.closest(".banner-notif").hidden = true));
+
+// Papelera: borra la búsqueda y actualiza el número de la pestaña
+document.querySelectorAll(".search-card__delete").forEach(b => b.addEventListener("click", () => {
+  b.closest(".search-card").remove();
+  const n = document.querySelectorAll(".search-card").length;
+  const badge = document.getElementById("searches-count");
+  badge.textContent = n;
+  badge.hidden = n === 0;
+  document.getElementById("searches-empty").hidden = n > 0;
+}));
+
+// Activar / desactivar notificaciones
+document.querySelectorAll(".fav-notif").forEach(b => b.addEventListener("click", () => {
+  const on = b.dataset.on !== "true";
+  b.dataset.on = on;
+  b.textContent = on ? "Turn off notifications" : "Turn on notifications";
+  b.classList.toggle("btn--primary", !on);
+  b.classList.toggle("btn--secondary", on);
+}));
+
+// Quitar / volver a poner en favoritos (corazón lleno ↔ vacío)
+document.querySelectorAll(".fav-store__heart").forEach(b => b.addEventListener("click", () => {
+  const on = b.getAttribute("aria-pressed") !== "true";
+  b.setAttribute("aria-pressed", on);
+  b.setAttribute("aria-label", on ? "Remove from favorites" : "Add to favorites");
+  b.querySelector(".icon").innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ICONS[on ? "heartFill" : "heart"]}</svg>`;
+}));
+
+// =========================================================
+// BOTTOM NAV — cambiar de página (Home ↔ Favorites)
+// =========================================================
+const showPage = page => {
+  const home = page === "home";
+  document.querySelectorAll(".bottom-nav__tab").forEach(t => t.classList.toggle("bottom-nav__tab--selected", t.dataset.page === page));
+  document.querySelector(".phone").dataset.page = page;
+  document.getElementById("header-home").hidden = !home;
+  document.getElementById("header-favorites").hidden = home;
+  document.getElementById("view-favorites").hidden = page !== "favorites";
+  // En la Home se vuelve a la pestaña que estaba seleccionada ("For you" o "+ Savings")
+  const view = document.querySelector(".tab-line--selected[data-view]").dataset.view;
+  document.getElementById("view-home").hidden = !(home && view === "home");
+  document.getElementById("view-savings").hidden = !(home && view === "savings");
+  window.scrollTo(0, 0);
+};
+document.querySelectorAll(".bottom-nav__tab").forEach(tab => tab.addEventListener("click", e => {
+  e.preventDefault();
+  if (tab.dataset.page) showPage(tab.dataset.page); // My cards, My list y Profile todavía no tienen página
+}));
 
 // Test A/B: abre la página con ?variante=b para ver la versión alternativa
 if (new URLSearchParams(location.search).get("variante") === "b") {

@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- Si cambias un .css o .js, sube este número (v=13 → v=14) para que el navegador no use una copia antigua -->
-  <link rel="stylesheet" href="styles.css?v=13">
-  <link rel="stylesheet" href="components.css?v=13">
+  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="components.css?v=15">
 </head>
 <body>
   <!-- Diseño: Figma "iPhone_HOME - section for favorite retailer's flyers" -->
@@ -27,6 +27,8 @@
         </span>
       </div>
 
+      <!-- Cabecera de la Home -->
+      <div id="header-home">
       <div class="top-bar">
         <button class="top-bar-title">
           You're in <strong>Bologna - 40138</strong>
@@ -45,6 +47,21 @@
           <span class="tag tag--teal">New</span>
         </button>
       </nav>
+      </div>
+
+      <!-- Cabecera de Favorites (Figma "FAVORITES_Stores") -->
+      <div id="header-favorites" hidden>
+        <div class="top-bar">
+          <h1 class="top-bar__heading">Favorites</h1>
+          <button class="btn-icon top-bar__right" aria-label="Search">
+            <span class="icon" data-icon="lens"></span>
+          </button>
+        </div>
+        <nav class="tabs">
+          <button class="tab-line tab-line--selected" data-favtab="stores">Stores</button>
+          <button class="tab-line" data-favtab="searches">Searches <span class="tab-badge" id="searches-count">2</span></button>
+        </nav>
+      </div>
     </header>
 
     <!-- VISTA "For you" -->
@@ -67,10 +84,13 @@
     <!-- VISTA "+ Savings": se genera desde app.js (Figma "+ Riaparmio - All (EN)") -->
     <main id="view-savings" hidden></main>
 
+    <!-- PÁGINA FAVORITES: se genera desde app.js (Figma "FAVORITES_Stores") -->
+    <main id="view-favorites" hidden></main>
+
     <!-- BOTTOM NAV BAR (iosBottomNavBar) -->
     <nav class="bottom-nav">
-      <a class="bottom-nav__tab bottom-nav__tab--selected" href="#"><span class="icon" data-icon="home"></span>Home</a>
-      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="heartFill"></span>Favorites</a>
+      <a class="bottom-nav__tab bottom-nav__tab--selected" href="#" data-page="home"><span class="icon" data-icon="home"></span>Home</a>
+      <a class="bottom-nav__tab" href="#" data-page="favorites"><span class="icon" data-icon="heartFill"></span>Favorites<span class="bottom-nav__badge"></span></a>
       <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="card"></span>My cards</a>
       <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="myListFill"></span>My list</a>
       <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="profile"></span>Profile</a>
@@ -78,7 +98,7 @@
 
   </div>
 
-  <script src="app.js?v=13"></script>
-  <script src="icons.js?v=13"></script>
+  <script src="app.js?v=15"></script>
+  <script src="icons.js?v=15"></script>
 </body>
 </html>

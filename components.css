@@ -383,3 +383,79 @@ img { display: block; }
 .community-card__save--on .selection-box { color: var(--color-content-action-primary-selected); }
 .community-card[hidden] { display: none; }
 .savings__empty { padding: var(--spacing-3xl) 0; text-align: center; font: var(--text-md); color: var(--color-content-subdued); }
+
+/* =========================================================
+   FAVORITES — página "FAVORITES_Stores"
+   iosTopBar (título) + tabViewer-line con badge + Favorite store + noticeScreen
+   ========================================================= */
+[hidden] { display: none !important; }
+
+.top-bar__heading { font: var(--text-lg-bold); color: var(--color-content-default); }
+
+/* badge numérico dentro de una pestaña (Searches 2) */
+.tab-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 var(--spacing-sm); border-radius: 10px;
+  background: var(--color-surface-action-primary-selected); color: var(--color-content-oninverse);
+  font: var(--text-xs-bold);
+}
+
+/* punto rojo sobre el icono de Favorites en el bottom bar (solo en la página Favorites, como en Figma) */
+.bottom-nav__tab { position: relative; }
+.bottom-nav__badge {
+  display: none; position: absolute; left: calc(50% + 10px); top: 2px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--color-surface-action-primary-selected);
+}
+.phone[data-page="favorites"] .bottom-nav__badge { display: block; }
+
+.favorites { display: flex; flex-direction: column; gap: var(--spacing-3xl); padding: var(--spacing-xl); }
+.divider { border: none; border-top: 1px solid var(--color-border-default); }
+
+.fav-store { display: flex; flex-direction: column; gap: var(--spacing-xl); }
+.fav-store__header { display: flex; align-items: center; justify-content: space-between; }
+.fav-store__retailer { display: flex; align-items: center; gap: var(--spacing-md); min-width: 0; }
+.fav-store__retailer h2 { font: var(--text-xl-bold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.thumb--lg { width: 40px; height: 40px; }
+.fav-store__heart { background: none; border: none; cursor: pointer; color: var(--color-content-action-primary-selected); }
+/* el carrusel llega hasta el borde derecho de la pantalla */
+.fav-store__carousel { margin-right: calc(var(--spacing-xl) * -1); }
+
+/* flyerCard Small sin nombre de retailer (imagen 162 de alto) */
+.flyer-card--compact .flyer-card__img { height: 162px; }
+.flyer-card--compact .flyer-card__meta { min-height: 18px; align-items: center; }
+
+.tag--orange { background: var(--color-surface-accent-02-subtler); color: var(--color-content-accent-02-bolder); }
+
+/* noticeScreen — tienda sin folletos */
+.notice { display: flex; flex-direction: column; gap: var(--spacing-3xl); }
+.notice__art { width: 100%; height: 162px; object-fit: contain; }
+.notice p { font: var(--text-md); }
+
+/* =========================================================
+   FAVORITES / SEARCHES — "FAVORITES_Searches"
+   bannerActiveLocation (aviso de notificaciones) + cardFavoriteSearch
+   ========================================================= */
+.banner-notif {
+  display: flex; gap: var(--spacing-md); align-items: center; overflow: hidden;
+  padding-left: var(--spacing-xl);
+  border: 1px solid var(--color-border-callout-02-start); border-radius: var(--radius-lg);
+  background: linear-gradient(93deg, var(--color-surface-callout-03-start) 0%, var(--color-surface-callout-03-end) 98.8%);
+}
+.banner-notif__text { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--spacing-lg); padding: var(--spacing-xl) 0; }
+.banner-notif__text p { font: var(--text-md); }
+.banner-notif__art { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; }
+.banner-notif__art img { width: 115px; height: 115px; }
+.banner-notif__close { color: var(--color-content-subdued-icon); }
+
+.search-cards { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.search-card {
+  display: flex; flex-direction: column; gap: var(--spacing-xs); min-height: 112px;
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-lg) var(--spacing-xl);
+  background: var(--color-surface-default); border-radius: var(--radius-md);
+}
+.search-card__title { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); }
+.search-card__title h2 { font: var(--text-xl-bold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.search-card__delete { color: var(--color-content-subdued-icon); }
+.search-card__content { display: flex; flex-direction: column; gap: var(--spacing-xs); padding-right: var(--spacing-md); }
+.search-card__content strong { font: var(--text-md-bold); }
+.search-card__content p { font: var(--text-md); color: var(--color-content-subdued); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

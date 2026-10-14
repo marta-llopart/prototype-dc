@@ -113,6 +113,12 @@
   --color-content-accent-01-bolder: var(--color-red-900);
   --color-surface-accent-03-regular: var(--color-yellow-700);
   --radius-search: 36px;
+  --color-surface-accent-02-subtler: var(--color-orange-100);
+  --color-content-accent-02-bolder: #943b08;
+  --color-surface-callout-03-start: #fef6f1;
+  --color-surface-callout-03-end: #fbc7aa;
+  --color-border-callout-02-start: var(--color-base-light);
+  --color-content-subdued-icon: var(--color-grey-600);
 }
 
 /* Variante B para tests A/B: se activa añadiendo ?variante=b a la URL */
