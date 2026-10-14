@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Si cambias un .css o .js, sube este número (v=11 → v=12) para que el navegador no use una copia antigua -->
-  <link rel="stylesheet" href="styles.css?v=11">
-  <link rel="stylesheet" href="components.css?v=11">
+  <!-- Si cambias un .css o .js, sube este número (v=13 → v=14) para que el navegador no use una copia antigua -->
+  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="stylesheet" href="components.css?v=13">
 </head>
 <body>
   <!-- Diseño: Figma "iPhone_HOME - section for favorite retailer's flyers" -->
@@ -38,8 +38,8 @@
       </div>
 
       <nav class="tabs">
-        <button class="tab-line tab-line--selected">For you</button>
-        <button class="tab-line">
+        <button class="tab-line tab-line--selected" data-view="home">For you</button>
+        <button class="tab-line" data-view="savings">
           <span class="icon icon--sm" data-icon="community"></span>
           + Savings
           <span class="tag tag--teal">New</span>
@@ -47,7 +47,8 @@
       </nav>
     </header>
 
-    <main>
+    <!-- VISTA "For you" -->
+    <main id="view-home">
       <!-- BUSCADOR + CATEGORÍAS + MASTHEAD + STORIES -->
       <div style="padding: 16px 16px 0; display: flex; flex-direction: column; gap: 8px;">
         <label class="search">
@@ -63,6 +64,9 @@
       <div id="sections"></div>
     </main>
 
+    <!-- VISTA "+ Savings": se genera desde app.js (Figma "+ Riaparmio - All (EN)") -->
+    <main id="view-savings" hidden></main>
+
     <!-- BOTTOM NAV BAR (iosBottomNavBar) -->
     <nav class="bottom-nav">
       <a class="bottom-nav__tab bottom-nav__tab--selected" href="#"><span class="icon" data-icon="home"></span>Home</a>
@@ -74,7 +78,7 @@
 
   </div>
 
-  <script src="app.js?v=11"></script>
-  <script src="icons.js?v=11"></script>
+  <script src="app.js?v=13"></script>
+  <script src="icons.js?v=13"></script>
 </body>
 </html>

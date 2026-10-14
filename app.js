@@ -167,15 +167,109 @@ document.getElementById("sections").innerHTML = sezioni.map(s => {
   }
 }).join("") + '<div style="height:24px"></div>';
 
+// =========================================================
+// + SAVINGS — contenido de la pestaña "+ Savings"
+// Edita esta lista para cambiar las publicaciones.
+// img: null = publicación sin imagen · saved: true = guardada (marcador rojo)
+// =========================================================
+const savingsTabs = [["Saved", "bookmark"], ["All"], ["Coupons"], ["Cashback"], ["Contests"], ["Free gift"]];
+
+const post = (nome, data, tipo, valore, testo, img = null, saved = false) => ({ nome, data, tipo, valore, testo, img, saved });
+const savingsPosts = [
+  post("Claudio A.",      "15/07/26", "Cashback", "€9.99 refund",   "Coccolino Wonder wash 2+1"),
+  post("Francesco Rossi", "15/07/26", "Cashback", "50% refund",     "Cashback Sanremo Air Wick", "airwick"),
+  post("Giulia Bardelli", "14/07/26", "Cashback", "Request refund", "A SUMMER OF GARNIER MICELLAR CASHBACK", null, true),
+  post("Elio Bencini",    "13/07/26", "Cashback", "€20.00 refund",  "CashBack SodaStream"),
+  post("Sara Colombo",    "12/07/26", "Cashback", "€15.00 refund",  "Get rewarded for your wellness choice - Cashback", "meclon"),
+  post("Matteo Luna",     "12/07/26", "Cashback", "€10.00 refund",  "CASHBACK NIVEA FACE 2026 - Try Luminous' anti-dark-spot effectiveness"),
+  post("Davide Russo",    "10/07/26", "Cashback", "€2.69 refund",   "SCOTTI TRY ME FOR FREE", "scotti"),
+  post("Luca Romano",     "09/07/26", "Cashback", "100% refund",    "COMPEED TRY ME FOR FREE", "compeed"),
+  post("Tom",             "19/06/26", "Coupons",  "€1.50 off",      "€1.50 coupons on Cameo Ristorante Grandissima pizza.", "cameo", true),
+  post("Marco Fabri",     "12/06/26", "Contests", "Win €30,000",    "Nescafé Dolce Gusto contest", "nescafe"),
+];
+
+// communityCard
+const communityCard = p => `
+  <article class="community-card" data-tipo="${p.tipo}" data-saved="${p.saved}">
+    <div class="community-card__header">
+      <img class="community-card__avatar" src="img/savings/avatar.png" alt="">
+      <div class="community-card__who"><span class="community-card__name">${p.nome}</span><span class="community-card__date">${p.data}</span></div>
+    </div>
+    ${p.img ? `<div class="community-card__img"><img src="img/savings/${p.img}.jpg" alt=""></div>` : ""}
+    <div class="community-card__desc">
+      <span class="tag tag--pink">${p.tipo}</span>
+      <span class="community-card__value">${p.valore}</span>
+      <div class="community-card__text"><p>${p.testo}</p><a href="#">Details</a></div>
+    </div>
+    <div class="community-card__footer">
+      <div class="community-card__actions">
+        <button class="community-card__action"><span class="selection-box"><span class="icon" data-icon="like"></span></span>15</button>
+        <button class="community-card__action"><span class="selection-box"><span class="icon" data-icon="send"></span></span>6</button>
+      </div>
+      <button class="community-card__save ${p.saved ? "community-card__save--on" : ""}" aria-label="Save">
+        <span class="selection-box"><span class="icon" data-icon="${p.saved ? "bookmarkFill" : "bookmark"}"></span></span>
+      </button>
+    </div>
+  </article>`;
+
+document.getElementById("view-savings").innerHTML = `
+  <div class="savings">
+    <div class="cat-tabs savings__tabs">${savingsTabs.map(([t, ic]) =>
+      `<button class="cat-tab ${t === "All" ? "cat-tab--selected" : ""}" data-filter="${t}" aria-pressed="${t === "All"}">${ic ? `<span class="icon icon--sm" data-icon="${ic}"></span>` : ""}${t}</button>`).join("")}</div>
+    <div class="savings__sort">Sort by:
+      <button class="btn btn--ghost btn--small">Most recent <span class="icon icon--sm" data-icon="expandMore"></span></button>
+    </div>
+    <div class="savings__cards">${savingsPosts.map(communityCard).join("")}</div>
+    <p class="savings__empty" hidden>No posts here yet.</p>
+  </div>`;
+
+// Cambiar entre "For you" y "+ Savings" en la misma pantalla
+document.querySelectorAll(".tab-line").forEach(tab => tab.addEventListener("click", () => {
+  document.querySelectorAll(".tab-line").forEach(t => t.classList.toggle("tab-line--selected", t === tab));
+  const view = tab.dataset.view;
+  document.getElementById("view-home").hidden = view !== "home";
+  document.getElementById("view-savings").hidden = view !== "savings";
+  window.scrollTo(0, 0);
+}));
+
+// FILTROS de + Savings
+// All = todos · Saved = solo guardados (marcador rojo) · resto = posts cuyo badge coincide con el chip
+let filtroActivo = "All";
+const applySavingsFilter = () => {
+  let visibili = 0;
+  document.querySelectorAll("#view-savings .community-card").forEach(card => {
+    const show = filtroActivo === "All"
+      || (filtroActivo === "Saved" ? card.dataset.saved === "true" : card.dataset.tipo === filtroActivo);
+    card.hidden = !show;
+    if (show) visibili++;
+  });
+  document.querySelector(".savings__empty").hidden = visibili > 0;
+};
+document.querySelectorAll("#view-savings [data-filter]").forEach(chip => chip.addEventListener("click", () => {
+  filtroActivo = chip.dataset.filter;
+  document.querySelectorAll("#view-savings [data-filter]").forEach(c => {
+    c.classList.toggle("cat-tab--selected", c === chip);
+    c.setAttribute("aria-pressed", c === chip);
+  });
+  applySavingsFilter();
+}));
+
+// Guardar / quitar de guardados al pulsar el marcador
+document.querySelectorAll(".community-card__save").forEach(b => b.addEventListener("click", () => {
+  const on = b.classList.toggle("community-card__save--on");
+  b.closest(".community-card").dataset.saved = on;
+  b.querySelector(".icon").innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ICONS[on ? "bookmarkFill" : "bookmark"]}</svg>`;
+  if (filtroActivo === "Saved") applySavingsFilter(); // si quitas uno estando en Saved, desaparece
+}));
+
 // Interacciones simples: seleccionar pestañas
 const selectable = (sel, cls) => document.querySelectorAll(sel).forEach(el =>
   el.addEventListener("click", e => {
     e.preventDefault();
-    document.querySelectorAll(sel).forEach(o => o.classList.remove(cls));
+    el.parentElement.querySelectorAll(sel).forEach(o => o.classList.remove(cls)); // solo dentro de su grupo
     el.classList.add(cls);
   }));
-selectable(".cat-tab", "cat-tab--selected");
-selectable(".tab-line", "tab-line--selected");
+selectable("#cat-tabs .cat-tab", "cat-tab--selected");
 selectable(".bottom-nav__tab", "bottom-nav__tab--selected");
 
 // Test A/B: abre la página con ?variante=b para ver la versión alternativa

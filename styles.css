@@ -110,6 +110,8 @@
   --color-border-callout-01-start: #c85062; /* base-specific/raspberry */
   --color-border-callout-04-start: #98ca5d; /* green/600 */
   --radius-sm: 4px;
+  --color-content-accent-01-bolder: var(--color-red-900);
+  --color-surface-accent-03-regular: var(--color-yellow-700);
   --radius-search: 36px;
 }
 

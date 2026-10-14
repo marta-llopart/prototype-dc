@@ -343,3 +343,43 @@ img { display: block; }
   width: 134px; height: 5px; border-radius: 100px; background: #000;
 }
 @media (max-width: 499px) { .bottom-nav::after { display: none; } }
+
+/* =========================================================
+   + SAVINGS — vista de la pestaña "+ Savings"
+   carouselTabsCommunity + Order by + communityCard
+   ========================================================= */
+.savings { display: flex; flex-direction: column; gap: var(--spacing-xl); padding: var(--spacing-xl); }
+.savings__tabs { margin: 0 calc(var(--spacing-xl) * -1); padding-left: var(--spacing-xl); padding-right: var(--spacing-xl); align-items: center; }
+.savings__tabs .cat-tab { display: inline-flex; align-items: center; gap: var(--spacing-xs); }
+.savings__sort { display: flex; align-items: center; gap: 6px; height: 32px; font: var(--text-sm); }
+.savings__sort .btn { gap: 2px; }
+.savings__cards { display: flex; flex-direction: column; gap: var(--spacing-xl); }
+
+/* communityCard */
+.community-card { background: var(--color-surface-default); border-radius: var(--radius-md); overflow: hidden; }
+.community-card__header { display: flex; align-items: center; gap: var(--spacing-md); padding: var(--spacing-lg) var(--spacing-xl); }
+.community-card__avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+.community-card__who { flex: 1; display: flex; align-items: baseline; gap: var(--spacing-md); min-width: 0; white-space: nowrap; }
+.community-card__name { flex: 1; font: var(--text-md-bold); overflow: hidden; text-overflow: ellipsis; }
+.community-card__date { font: var(--text-sm); color: var(--color-content-subdued); }
+.community-card__img { height: 232px; background: var(--color-surface-accent-neutral-subtle); }
+.community-card__img img { width: 100%; height: 100%; object-fit: cover; }
+.community-card__desc { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-md); padding: var(--spacing-md) var(--spacing-xl); }
+.tag--pink { height: 20px; background: var(--color-surface-accent-01-subtler); color: var(--color-content-accent-01-bolder); font: var(--text-xs-bold); }
+.community-card__value {
+  padding: var(--spacing-xs) var(--spacing-lg); border-radius: var(--radius-xl);
+  background: var(--color-surface-accent-03-regular); font: var(--text-md-bold); white-space: nowrap;
+}
+.community-card__text { display: flex; flex-direction: column; gap: var(--spacing-xs); font: var(--text-sm); }
+.community-card__text a { color: var(--color-content-action-ghost-default); text-decoration: none; }
+.community-card__footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-xl); border-top: 1px solid var(--color-border-default);
+}
+.community-card__actions { display: flex; align-items: center; gap: var(--spacing-lg); }
+.community-card__action { display: flex; align-items: center; font: var(--text-sm); color: var(--color-content-subdued); background: none; border: none; cursor: pointer; }
+.selection-box { width: 40px; height: 40px; padding: var(--spacing-xs); display: inline-flex; align-items: center; justify-content: center; color: var(--color-content-default); }
+.community-card__save { background: none; border: none; cursor: pointer; padding: 0; }
+.community-card__save--on .selection-box { color: var(--color-content-action-primary-selected); }
+.community-card[hidden] { display: none; }
+.savings__empty { padding: var(--spacing-3xl) 0; text-align: center; font: var(--text-md); color: var(--color-content-subdued); }
