@@ -284,14 +284,13 @@ selectable("#cat-tabs .cat-tab", "cat-tab--selected");
 // tag: "nuovo" (New) | "scade" (-2 days) | null
 // =========================================================
 const favoriteStores = [
-  { nome: "Unieuro", logo: "img/logos/unieuro.png", notifications: false, flyers: [
-    { img: "img/favorites/unieuro-1.jpg", distanza: "978 m", tag: "nuovo" },
-    { img: "img/favorites/unieuro-2.jpg", distanza: "978 m", tag: null },
+  { nome: "Lidl", logo: "img/logos/lidl.png", notifications: false, flyers: [
+    { img: "img/favorites/lidl-1.jpg", distanza: "978 m", tag: null },
   ] },
-  { nome: "Conad", logo: "img/stories/conad.png", notifications: true, flyers: [
-    { img: "img/favorites/conad-1.jpg", distanza: "978 m", tag: "nuovo" },
-    { img: "img/favorites/conad-2.jpg", distanza: "978 m", tag: "scade" },
-    { img: "img/favorites/conad-3.jpg", distanza: "978 m", tag: "nuovo" },
+  { nome: "Coop", logo: "img/logos/coop.png", notifications: true, flyers: [
+    { img: "img/favorites/coop-1.jpg", distanza: "1.5 km", tag: "nuovo" },
+    { img: "img/favorites/coop-2.jpg", distanza: "1.5 km", tag: "scade" },
+    { img: "img/favorites/coop-3.jpg", distanza: "1.5 km", tag: null },
   ] },
   { nome: "Bimbo Store", logo: "img/favorites/logo-bimbostore.png", notifications: false, flyers: [] },
 ];
