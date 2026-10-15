@@ -33,16 +33,19 @@ const stories = [
 // Un folleto: imagen, retailer, distancia y etiqueta (tag: "nuovo" | "arrivo" | null)
 const f = (img, tag = "nuovo", retailer = "Retailer") => ({ img, tag, retailer, distanza: "978 m" });
 
+// Folletos de los retailers favoritos (bloque "Your favorites" de la Home)
+const favoriti = [
+  { img: "img/flyer-picked-lidl.jpg", logo: "img/logos/lidl.png", retailer: "Lidl", distanza: "978 m",  tag: null },
+  { img: "img/flyer-picked-coop.jpg", logo: "img/logos/coop.png", retailer: "Coop", distanza: "1.5 km", tag: "nuovo" },
+  { img: "img/flyer-fav-coop-2.jpg",  logo: "img/logos/coop.png", retailer: "Coop", distanza: "1.5 km", tag: "scade" },
+  { img: "img/flyer-fav-coop-3.jpg",  logo: "img/logos/coop.png", retailer: "Coop", distanza: "1.5 km", tag: null },
+];
+
 // Secciones de la Home, en el mismo orden que el diseño de Figma
 const sezioni = [
-  { tipo: "carousel", titolo: "Picked for you", icono: "heartFill", link: "See more",
-    items: [
-      { img: "img/flyer-picked-arcaplanet.jpg", logo: "img/logos/arcaplanet.png", retailer: "Arcaplanet", distanza: "643 m",  tag: "nuovo" },
-      { img: "img/flyer-picked-coop.jpg",       logo: "img/logos/coop.png",       retailer: "Coop",       distanza: "978 m",  tag: "nuovo" },
-      { img: "img/flyer-picked-lidl.jpg",       logo: "img/logos/lidl.png",       retailer: "Lidl",       distanza: "1.5 km", tag: null },
-      { img: "img/flyer-picked-pam.jpg",        logo: "img/logos/pam.png",        retailer: "Pam",        distanza: "1.8 km", tag: null },
-      { img: "img/flyer-picked-unieuro.jpg",    logo: "img/logos/unieuro.png",    retailer: "Unieuro",    distanza: "1.5 km", tag: null },
-    ] },
+  // Figma 46:4888 — "Your favourites". "Discover more" lleva a la página Favorites
+  { tipo: "carousel", titolo: "Your favorites", icono: "heartFill", link: "Discover more", goto: "favorites",
+    items: favoriti },
 
   { tipo: "grid", items: Array.from({ length: 20 }, (_, i) => i === 5 ? { pub: true } : f(IMG.unieuro)) },
 
@@ -75,6 +78,7 @@ const sezioni = [
 const TAGS = {
   nuovo:  '<span class="tag tag--green">New</span>',
   arrivo: '<span class="tag tag--purple">Coming soon</span>',
+  scade:  '<span class="tag tag--orange">-2 days</span>',
 };
 
 // flyerCard — size "small" (132) o "default" (164)
@@ -123,7 +127,7 @@ const sectionTitle = s => `
     <div class="section__text">
       <h2>${s.icono ? `<span class="icon icon--sm" data-icon="${s.icono}"></span>` : ""}${s.titolo}</h2>
     </div>
-    ${s.link ? `<a class="btn btn--ghost btn--small" href="#">${s.link}</a>` : ""}
+    ${s.link ? `<a class="btn btn--ghost btn--small" href="#" ${s.goto ? `data-goto="${s.goto}"` : ""}>${s.link}</a>` : ""}
   </div>`;
 
 const BOLT = '<svg class="story__bolt" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#83BE3E" stroke="#E4F1D5" stroke-width="2"/><path d="M5.78 9.7l4.96-5.35c.35-.37.97-.05.86.45l-.9 4.05c-.07.31.17.61.49.61h2.56c.45 0 .67.55.34.86l-5.5 5.19c-.39.36-1-.05-.81-.54l1.42-3.76c.12-.33-.12-.68-.47-.68H6.15c-.44 0-.66-.52-.37-.84Z" fill="#fff"/></svg>';
@@ -410,6 +414,12 @@ const showPage = page => {
 document.querySelectorAll(".bottom-nav__tab").forEach(tab => tab.addEventListener("click", e => {
   e.preventDefault();
   if (tab.dataset.page) showPage(tab.dataset.page); // My cards, My list y Profile todavía no tienen página
+}));
+
+// Enlaces que llevan a otra página (p. ej. "Discover more" → Favorites, la misma página que la pestaña del bottom bar)
+document.querySelectorAll("[data-goto]").forEach(a => a.addEventListener("click", e => {
+  e.preventDefault();
+  showPage(a.dataset.goto);
 }));
 
 // Test A/B: abre la página con ?variante=b para ver la versión alternativa
