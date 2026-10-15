@@ -459,3 +459,135 @@ img { display: block; }
 .search-card__content { display: flex; flex-direction: column; gap: var(--spacing-xs); padding-right: var(--spacing-md); }
 .search-card__content strong { font: var(--text-md-bold); }
 .search-card__content p { font: var(--text-md); color: var(--color-content-subdued); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* =========================================================
+   MY CARDS — Figma "Partial state (6) grid" (28:3364)
+   loyaltyCard (167×112) + buttonFloating
+   ========================================================= */
+.cards { padding: var(--spacing-xl); display: flex; flex-direction: column; gap: var(--spacing-3xl); }
+.cards__title { display: flex; flex-direction: column; gap: var(--spacing-md); color: var(--color-content-default); }
+.cards__title h1 { font: var(--text-4xl); }
+.cards__title p { font: var(--text-md); }
+.cards__title strong { font-weight: 700; }
+.cards__list { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); }
+
+.loyalty-card {
+  height: 112px; padding: var(--spacing-md);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  border: none; border-radius: var(--radius-md); cursor: pointer;
+  background: var(--color-surface-default);
+  box-shadow: var(--shadow-small);
+}
+.loyalty-card img { width: 100%; height: 100%; object-fit: contain; border-radius: var(--radius-sm); }
+/* Tarjeta sin logo: nombre de la tienda sobre el gradiente callout 01 */
+.loyalty-card--text {
+  background: linear-gradient(146deg, var(--color-surface-callout-01-start) 0%, var(--color-surface-callout-01-middle) 42%, var(--color-surface-callout-01-end) 100%);
+  color: var(--color-content-oninverse); font: var(--text-md-bold);
+}
+.loyalty-card--text span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* buttonFloating — Primary / Large: 16px por encima del bottom bar */
+.btn-floating {
+  position: fixed; z-index: 9; bottom: calc(84px + var(--spacing-xl));
+  right: max(var(--spacing-xl), calc((100vw - 375px) / 2 + var(--spacing-xl)));
+  padding: calc(var(--spacing-lg) - 1px) calc(var(--spacing-2xl) - 1px); border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-button);
+}
+
+/* =========================================================
+   CARD DETAIL — Figma "Card detail" (28:3175)
+   Pantalla completa que entra desde la derecha (slide in)
+   ========================================================= */
+/* Contenedor fijo del ancho del móvil: recorta la pantalla mientras entra/sale */
+#card-details {
+  position: fixed; top: 0; bottom: 0; z-index: 20;
+  width: 100%; max-width: 375px;
+  overflow: hidden; pointer-events: none;
+}
+.card-detail {
+  position: absolute; inset: 0; pointer-events: auto;
+  overflow-x: hidden; overflow-y: auto;
+  background: var(--color-surface-neutral);
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.32, .72, 0, 1);
+}
+.card-detail.is-open { transform: none; }
+/* Columna: si el contenido es corto, el home indicator baja al fondo de la pantalla */
+.card-detail { display: flex; flex-direction: column; }
+.card-detail > * { flex-shrink: 0; }
+/* Forma de color de la marca, girada -30° detrás de la cabecera */
+.card-detail__bg {
+  position: absolute; left: -18.55px; top: -133.07px;
+  width: 360px; height: 374.25px; border-radius: 0 0 32px 32px;
+  transform: rotate(-30deg);
+}
+.card-detail__header { position: relative; }
+.card-detail .status-bar { position: relative; }
+.card-detail .status-bar__time { color: var(--color-content-oninverse); }
+/* iosHomeIndicator (solo en el ordenador, como el resto del marco) */
+.card-detail__home { display: none; }
+@media (min-width: 500px) {
+  .card-detail__home { display: flex; position: sticky; bottom: 0; margin-top: auto; height: 34px; justify-content: center; align-items: flex-end; padding-bottom: 8px; pointer-events: none; }
+  .card-detail__home::after { content: ""; width: 134px; height: 5px; border-radius: 100px; background: #000; }
+}
+.card-detail .top-bar__heading { color: var(--color-content-oninverse); }
+.card-detail .top-bar .btn-icon { color: var(--color-content-oninverse); }
+.top-bar__left { position: absolute; left: var(--spacing-xs); top: 50%; transform: translateY(-50%); }
+.card-detail__content { position: relative; display: flex; flex-direction: column; gap: var(--spacing-3xl); padding: var(--spacing-xl); }
+
+/* cardBarcodeQr — type=barcode */
+.barcode-card {
+  display: flex; flex-direction: column; align-items: center; gap: var(--spacing-3xl);
+  padding: var(--spacing-3xl); border-radius: var(--radius-xl);
+  background: var(--color-surface-default); border: 1px solid var(--color-border-callout-02-start);
+  box-shadow: var(--shadow-medium);
+}
+.barcode-card img { width: 280px; height: 130px; }
+.barcode-card p { font: var(--text-lg-bold); color: #000; text-align: center; }
+
+.tabs--full { padding: 0; }
+.store-panel { display: flex; flex-direction: column; gap: var(--spacing-xl); padding: var(--spacing-xl); background: var(--color-surface-default); }
+.store-panel__top { display: flex; flex-direction: column; gap: var(--spacing-md); }
+/* cardStoreInfo */
+.store-info { display: flex; gap: var(--spacing-xl); align-items: flex-start; }
+.store-info > img { width: 88px; height: 88px; flex-shrink: 0; }
+.store-info__text { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-md); }
+.store-info__text p { font: var(--text-md); }
+.store-info__text strong { font: var(--text-sm-bold); color: var(--color-content-subdued); }
+/* dropdownTimeTable (cerrado) */
+.timetable { display: flex; flex-direction: column; gap: var(--spacing-md); }
+.timetable__header { display: flex; align-items: center; gap: var(--spacing-md); }
+.timetable__toggle .icon { transition: transform .2s; }
+.timetable__toggle[aria-expanded="true"] .icon { transform: rotate(180deg); } /* expandMore → expandLess */
+.timetable__week { list-style: none; display: flex; flex-direction: column; gap: var(--spacing-md); font: var(--text-sm); }
+.timetable__week li { display: flex; justify-content: space-between; gap: var(--spacing-md); white-space: nowrap; }
+.timetable__week li span:first-child { display: flex; align-items: center; gap: var(--spacing-md); }
+.timetable__week li span:first-child::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--color-content-accent-04-regular); }
+.timetable__week li.is-today { font: var(--text-sm-bold); }
+.timetable__week li.is-closed { color: var(--color-content-subdued); }
+.timetable__week li.is-closed span:first-child::before { background: var(--color-content-subdued); }
+.timetable__status { flex: 1 0 0; display: flex; align-items: center; gap: var(--spacing-md); font: var(--text-sm); }
+.timetable__status strong { font: var(--text-sm-bold); color: var(--color-content-accent-04-regular); margin-right: calc(var(--spacing-xs) - var(--spacing-md)); }
+.btn-icon--sm { width: 32px; height: 32px; }
+/* catalogs — simpleFlyerCard */
+.store-panel__flyers { display: flex; gap: var(--spacing-xl); }
+.store-panel__flyers img {
+  width: 147px; height: 204px; object-fit: contain; border-radius: var(--radius-md);
+  background: var(--color-surface-accent-neutral-subtle); box-shadow: var(--shadow-small);
+}
+
+/* Pestaña Info del detalle (Figma 57:9018) */
+.icon--lg { width: 32px; height: 32px; }
+.info-panel { display: flex; flex-direction: column; gap: var(--spacing-xl); padding: var(--spacing-xl); background: var(--color-surface-default); }
+.info-panel > strong { font: var(--text-sm-bold); }
+.info-panel__photos { display: flex; gap: var(--spacing-xl); }
+/* photoCard */
+.photo-card {
+  flex: 1 0 0; height: 90px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-md);
+  border: 1px solid var(--color-border-accent-01-regular); border-radius: var(--radius-md);
+  background: none; cursor: pointer;
+  font: var(--text-sm-bold); color: var(--color-content-accent-01-regular);
+}
+.info-panel__note { border: none; outline: none; background: none; padding: 0; font: var(--text-sm); color: var(--color-content-default); }
+.info-panel__note::placeholder { color: var(--color-content-input-text-default); opacity: 1; }

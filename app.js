@@ -395,15 +395,150 @@ document.querySelectorAll(".fav-store__heart").forEach(b => b.addEventListener("
 }));
 
 // =========================================================
-// BOTTOM NAV — cambiar de página (Home ↔ Favorites)
+// MY CARDS — tarjetas de fidelización (Figma "Partial state (6) grid", 28:3364)
+// Cada tarjeta: logo sobre el color de la marca, o solo el nombre (gradiente)
+// =========================================================
+const loyaltyCards = [
+  { nome: "Conad", logo: "img/cards/conad.png", colore: "#ffffff" },
+  { nome: "Coop", logo: "img/cards/coop.png", colore: "#e30613",
+    // Detalle de la tarjeta (Figma "Card detail", 28:3175)
+    dettaglio: {
+      barcode: "img/cards/barcode.png", codice: "2 985 002 624 219",
+      mappa: "img/cards/coop-store-map.png", indirizzo: "Via M. E. Lepido, 184 - Bologna", distanza: "420 m",
+      orario: "until 21:00",
+      // Horario semanal (Figma "dropdownTimeTable" abierto, 50:8961). null = cerrado. "oggi" = día en negrita
+      settimana: [
+        ["Monday", "08:00 / 13:00 - 15:00 / 21:00"], ["Tuesday", "08:00 / 13:00 - 15:00 / 21:00"],
+        ["Wednesday", "08:00 / 13:00 - 15:00 / 21:00"], ["Thursday", "08:00 / 13:00 - 15:00 / 21:00"],
+        ["Friday", "08:00 / 13:00 - 15:00 / 21:00"], ["Saturday", "08:00 / 13:00 - 15:00 / 21:00"],
+        ["Sunday", null],
+      ],
+      oggi: 0,
+      volantini: ["img/cards/coop-flyer-1.jpg", "img/cards/coop-flyer-2.jpg"],
+    } },
+  { nome: "Corte Isolani Club" },
+  { nome: "Decathlon", logo: "img/cards/decathlon.png", colore: "#1482c2" },
+  { nome: "IKEA Family", logo: "img/cards/ikea-family.png", colore: "#f08b06" },
+  { nome: "Lidl", logo: "img/cards/lidl.png", colore: "#103278" },
+];
+const loyaltyCard = c => c.logo
+  ? `<button class="loyalty-card" style="background:${c.colore}" aria-label="${c.nome}"><img src="${c.logo}" alt="${c.nome}"></button>`
+  : `<button class="loyalty-card loyalty-card--text"><span>${c.nome}</span></button>`;
+document.getElementById("view-cards").innerHTML = `
+  <div class="cards">
+    <div class="cards__title">
+      <h1>Loyalty cards</h1>
+      <p>Tab <strong>Add card</strong> and find yours among more than 500 stores.</p>
+    </div>
+    <div class="cards__list">${loyaltyCards.map(loyaltyCard).join("")}</div>
+  </div>
+  <button class="btn btn--large btn--primary btn-floating">+ Add a card</button>`;
+
+// Detalle de cada tarjeta que tenga "dettaglio" (de momento solo Coop)
+const statusBar = document.querySelector(".status-bar").outerHTML;
+const cardDetail = (c, i) => `
+  <section class="card-detail" data-detail="${i}" hidden>
+    <div class="card-detail__bg" style="background:${c.colore}"></div>
+    <header class="card-detail__header">
+      ${statusBar}
+      <div class="top-bar">
+        <button class="btn-icon top-bar__left" data-close-detail aria-label="Back"><span class="icon" data-icon="arrowBack"></span></button>
+        <h1 class="top-bar__heading">${c.nome}</h1>
+        <button class="btn-icon top-bar__right" aria-label="More options"><span class="icon" data-icon="moreCircular"></span></button>
+      </div>
+    </header>
+    <div class="card-detail__content">
+      <div class="barcode-card">
+        <img src="${c.dettaglio.barcode}" alt="Barcode">
+        <p>${c.dettaglio.codice}</p>
+      </div>
+      <div>
+        <nav class="tabs tabs--full">
+          <button class="tab-line tab-line--selected" data-cardtab="stores">Stores &amp; offers</button>
+          <button class="tab-line" data-cardtab="info">Info</button>
+        </nav>
+        <div class="store-panel" data-cardpanel="stores">
+          <div class="store-panel__top">
+            <div class="store-info">
+              <img src="${c.dettaglio.mappa}" alt="">
+              <div class="store-info__text">
+                <p>${c.dettaglio.indirizzo}</p>
+                <strong>${c.dettaglio.distanza}</strong>
+              </div>
+              <button class="btn-icon" aria-label="Directions"><span class="icon" data-icon="direction"></span></button>
+            </div>
+            <div class="timetable">
+              <div class="timetable__header">
+                <div class="timetable__status"><span class="icon" data-icon="time"></span><strong>OPEN</strong>${c.dettaglio.orario}</div>
+                <button class="btn-icon btn-icon--sm timetable__toggle" aria-label="Opening hours" aria-expanded="false"><span class="icon icon--sm" data-icon="expandMore"></span></button>
+              </div>
+              <ul class="timetable__week" hidden>${c.dettaglio.settimana.map(([giorno, ore], g) => `
+                <li class="${ore ? "" : "is-closed"} ${g === c.dettaglio.oggi ? "is-today" : ""}"><span>${giorno}</span><span>${ore || "Closed"}</span></li>`).join("")}
+              </ul>
+            </div>
+          </div>
+          <hr class="divider">
+          <div class="store-panel__flyers">${c.dettaglio.volantini.map(v => `<img src="${v}" alt="${c.nome} flyer">`).join("")}</div>
+        </div>
+        <!-- Pestaña Info (Figma 57:9018): nombre, fotos de la tarjeta (FRONT / BACK) y nota -->
+        <div class="info-panel" data-cardpanel="info" hidden>
+          <strong>${c.nome}</strong>
+          <hr class="divider">
+          <div class="info-panel__photos">
+            <button class="photo-card"><span class="icon icon--lg" data-icon="camera"></span>FRONT</button>
+            <button class="photo-card"><span class="icon icon--lg" data-icon="camera"></span>BACK</button>
+          </div>
+          <hr class="divider">
+          <input class="info-panel__note" type="text" placeholder="Add a note..." aria-label="Note">
+        </div>
+      </div>
+    </div>
+    <div class="card-detail__home"></div>
+  </section>`;
+document.getElementById("card-details").innerHTML = loyaltyCards.map((c, i) => c.dettaglio ? cardDetail(c, i) : "").join("");
+
+// Abrir: slide in de derecha a izquierda · Cerrar (flecha atrás): sale hacia la derecha
+const openDetail = i => {
+  const d = document.querySelector(`.card-detail[data-detail="${i}"]`);
+  if (!d) return; // tarjeta sin detalle todavía
+  d.hidden = false; d.scrollTop = 0;
+  d.querySelector('[data-cardtab="stores"]').click();
+  d.getBoundingClientRect(); // fuerza el punto de partida para que se vea la animación
+  d.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+};
+const closeDetail = d => {
+  d.classList.remove("is-open");
+  d.addEventListener("transitionend", () => { d.hidden = true; }, { once: true });
+  document.body.style.overflow = "";
+};
+document.querySelectorAll(".loyalty-card").forEach((b, i) => b.addEventListener("click", () => openDetail(i)));
+// Pestañas del detalle: "Stores & offers" ↔ "Info"
+document.querySelectorAll("[data-cardtab]").forEach(tab => tab.addEventListener("click", () => {
+  const d = tab.closest(".card-detail");
+  d.querySelectorAll("[data-cardtab]").forEach(t => t.classList.toggle("tab-line--selected", t === tab));
+  d.querySelectorAll("[data-cardpanel]").forEach(p => p.hidden = p.dataset.cardpanel !== tab.dataset.cardtab);
+}));
+
+// Flecha del horario: despliega / pliega la semana completa
+document.querySelectorAll(".timetable__toggle").forEach(b => b.addEventListener("click", () => {
+  const open = b.getAttribute("aria-expanded") !== "true";
+  b.setAttribute("aria-expanded", open);
+  b.closest(".timetable").querySelector(".timetable__week").hidden = !open;
+}));
+document.querySelectorAll("[data-close-detail]").forEach(b => b.addEventListener("click", () => closeDetail(b.closest(".card-detail"))));
+
+// =========================================================
+// BOTTOM NAV — cambiar de página (Home ↔ Favorites ↔ My cards)
 // =========================================================
 const showPage = page => {
   const home = page === "home";
   document.querySelectorAll(".bottom-nav__tab").forEach(t => t.classList.toggle("bottom-nav__tab--selected", t.dataset.page === page));
   document.querySelector(".phone").dataset.page = page;
   document.getElementById("header-home").hidden = !home;
-  document.getElementById("header-favorites").hidden = home;
+  document.getElementById("header-favorites").hidden = page !== "favorites";
   document.getElementById("view-favorites").hidden = page !== "favorites";
+  document.getElementById("view-cards").hidden = page !== "cards";
   // En la Home se vuelve a la pestaña que estaba seleccionada ("For you" o "+ Savings")
   const view = document.querySelector(".tab-line--selected[data-view]").dataset.view;
   document.getElementById("view-home").hidden = !(home && view === "home");
@@ -412,7 +547,7 @@ const showPage = page => {
 };
 document.querySelectorAll(".bottom-nav__tab").forEach(tab => tab.addEventListener("click", e => {
   e.preventDefault();
-  if (tab.dataset.page) showPage(tab.dataset.page); // My cards, My list y Profile todavía no tienen página
+  if (tab.dataset.page) showPage(tab.dataset.page); // My list y Profile todavía no tienen página
 }));
 
 // Enlaces que llevan a otra página (p. ej. "Discover more" → Favorites, la misma página que la pestaña del bottom bar)
