@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- Si cambias un .css o .js, sube este número (v=13 → v=14) para que el navegador no use una copia antigua -->
-  <link rel="stylesheet" href="styles.css?v=25">
-  <link rel="stylesheet" href="components.css?v=25">
+  <link rel="stylesheet" href="styles.css?v=30">
+  <link rel="stylesheet" href="components.css?v=30">
 </head>
 <body>
   <!-- Diseño: Figma "iPhone_HOME - section for favorite retailer's flyers" -->
@@ -50,6 +50,9 @@
       </div>
 
       <!-- Cabecera de Favorites (Figma "FAVORITES_Stores") -->
+      <!-- Header reducido de My list: aparece al hacer scroll (se rellena desde app.js) -->
+      <div id="header-mylist"></div>
+
       <div id="header-favorites" hidden>
         <div class="top-bar">
           <h1 class="top-bar__heading">Favorites</h1>
@@ -89,6 +92,9 @@
     <!-- PÁGINA MY CARDS: se genera desde app.js (Figma "Partial state (6) grid", 28:3364) -->
     <main id="view-cards" hidden></main>
 
+    <!-- PÁGINA MY LIST: se genera desde app.js (Figma "iPhone_SAVING-LIST_list-view", 63:2385) -->
+    <main id="view-mylist" hidden></main>
+
     <!-- PÁGINA PROFILE: se genera desde app.js (Figma "Profile", 50:8691) -->
     <main id="view-profile" hidden></main>
 
@@ -100,13 +106,13 @@
       <a class="bottom-nav__tab bottom-nav__tab--selected" href="#" data-page="home"><span class="icon" data-icon="home"></span>Home</a>
       <a class="bottom-nav__tab" href="#" data-page="favorites"><span class="icon" data-icon="heartFill"></span>Favorites<span class="bottom-nav__badge"></span></a>
       <a class="bottom-nav__tab" href="#" data-page="cards"><span class="icon" data-icon="card"></span>My cards</a>
-      <a class="bottom-nav__tab" href="#"><span class="icon" data-icon="myListFill"></span>My list</a>
+      <a class="bottom-nav__tab" href="#" data-page="mylist"><span class="icon" data-icon="myListFill"></span>My list</a>
       <a class="bottom-nav__tab" href="#" data-page="profile"><span class="icon" data-icon="profile"></span>Profile</a>
     </nav>
 
   </div>
 
-  <script src="app.js?v=25"></script>
-  <script src="icons.js?v=25"></script>
+  <script src="app.js?v=30"></script>
+  <script src="icons.js?v=30"></script>
 </body>
 </html>

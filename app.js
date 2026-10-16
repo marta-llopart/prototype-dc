@@ -494,12 +494,236 @@ document.getElementById("view-profile").innerHTML = `
   </div>`;
 // La X o cualquiera de los dos botones cierran el banner "Do you like the DoveConviene app?"
 document.querySelectorAll("[data-close-review]").forEach(b => b.addEventListener("click", () => {
-  document.querySelector(".banner-review").hidden = true;
+  b.closest(".banner-review").hidden = true;
 }));
 // El icono de copiar copia el ID al portapapeles
 document.querySelector(".profile__copy").addEventListener("click", () => {
   navigator.clipboard?.writeText(profileId).catch(() => {});
 });
+
+// =========================================================
+// PÁGINA MY LIST (Figma "iPhone_SAVING-LIST_list-view", 63:2385)
+// Banner review + pestañas por tienda + total + buscador + productos por tienda
+// =========================================================
+// Productos: { nome, img, prezzo, vecchio (precio sin oferta o null), sconto: [texto, "neutral"|"teal-light"] o null, qty, preso (marcado) }
+const myList = [
+  { negozio: "Aldi", logo: "img/mylist/thumb-aldi.png", volantino: "Prezzi bassi", scadenza: "expires 05/18", indirizzo: "Via Montebello, 2 Bologna • 788 m",
+    prodotti: [
+      { nome: "Agnolotti alla carne", img: "img/mylist/agnolotti.jpg", prezzo: 1.59, qty: 1 },
+      { nome: "Salsiccia lunganera", img: "img/mylist/salsiccia.jpg", prezzo: 1.49, vecchio: 2.25, sconto: ["-33%", "neutral"], qty: 1, preso: true },
+      { nome: "Passata di pomodoro", img: "img/mylist/passata.jpg", prezzo: 0.69, vecchio: 0.79, sconto: ["-12%", "teal-light"], qty: 3 },
+      { nome: "Capsule caffè Espresso Classico XXL", img: "img/mylist/caffe.jpg", prezzo: 13.99, qty: 2 },
+    ] },
+  { negozio: "Expert", logo: "img/mylist/thumb-expert.png", volantino: "Sottocosto", scadenza: "expires 10/25", indirizzo: "Via Ugo Lenzi, 4 Bologna • 1 km",
+    prodotti: [
+      { nome: "CUFFIE WIRELESS A PADIGLIONE RBM300BEK", img: "img/mylist/cuffie.jpg", prezzo: 29.90, qty: 1 },
+      { nome: "Super Mario Party Jamboree", img: "img/mylist/mario-party.jpg", prezzo: 64.90, qty: 1, preso: true },
+    ] },
+];
+// Productos añadidos a mano (sin precio): [nombre, cantidad, marcado]
+const otherProducts = [["Sparkling Water", 6, false], ["Avocados", 4, true], ["Laundry softener", 1, false]];
+const expiredOffers = [
+  { nome: "Very long product name on three lines ...", img: "img/mylist/orate.jpg", prezzo: 199.99, vecchio: 299.99, sconto: ["-50%", "teal-light"] },
+];
+
+const euro = n => "€" + n.toFixed(2);
+const CHECK = '<svg viewBox="0 0 20 20" aria-hidden="true"><path fill="#fff" d="M15.293 5.293a1 1 0 0 1 1.414 1.414l-8 8a1 1 0 0 1-1.338.069l-.076-.069-4-4-.069-.076A1 1 0 0 1 4.631 9.225l.076.068L8 12.586l7.293-7.293Z"/></svg>';
+const checkbox = on => `<button class="checkbox" role="checkbox" aria-checked="${!!on}" aria-label="In the cart">${CHECK}</button>`;
+const counter = n => `
+  <div class="counter">
+    <button data-qty="-1" aria-label="Less"><span class="icon icon--sm" data-icon="minusCounter"></span></button>
+    <span class="counter__num">${n}</span>
+    <button data-qty="1" aria-label="More"><span class="icon icon--sm" data-icon="addCounter"></span></button>
+  </div>`;
+const productCard = (p, expired) => `
+  <div class="list-card ${expired ? "list-card--expired" : ""} ${p.preso ? "is-checked" : ""}" data-price="${p.prezzo}" data-old="${p.vecchio || ""}">
+    ${checkbox(p.preso)}
+    <div class="list-card__img"><img src="${p.img}" alt="">${p.sconto ? `<span class="tag tag--${p.sconto[1]}">${p.sconto[0]}</span>` : ""}</div>
+    <div class="list-card__info">
+      <p class="list-card__name">${p.nome}</p>
+      <p class="list-card__price">${euro(p.prezzo)}</p>
+      ${p.vecchio ? `<p class="list-card__old">${euro(p.vecchio)}</p>` : ""}
+    </div>
+    ${expired ? "" : counter(p.qty)}
+  </div>`;
+const totals = () => `<div class="list-total"><p class="list-total__total"></p><p class="list-total__savings"><span>savings</span><strong></strong></p></div>`;
+const groupButtons = share => `
+  <div class="list-group__buttons">
+    ${share ? `<button class="btn-icon" aria-label="Share"><span class="icon" data-icon="shareIos"></span></button>` : ""}
+    <button class="btn-icon list-group__delete" data-delete-group aria-label="Delete"><span class="icon" data-icon="bin"></span></button>
+  </div>`;
+const sectionHead = (title, share) => `
+  <div class="list-group__title">
+    <div class="section__text"><h2>${title}</h2></div>
+    ${groupButtons(share)}
+  </div>`;
+
+// Pestañas All / tiendas
+const myListTabs = `
+  <button class="tab-line tab-line--selected" data-listtab="all">All</button>
+  ${myList.map(s => `<button class="tab-line" data-listtab="${s.negozio}">${s.negozio}</button>`).join("")}`;
+document.getElementById("header-mylist").innerHTML = `
+  <div class="top-bar"><h1 class="top-bar__heading">My savings list</h1></div>`;
+document.getElementById("view-mylist").innerHTML = `
+  <div class="mylist">
+    <h1 class="mylist__title">My savings list</h1>
+    <div class="banner-review">
+      <div class="banner-review__head">
+        <img src="img/profile/artwork-heart.svg" width="62" height="56" alt="">
+        <p>Do you like the DoveConviene app?</p>
+      </div>
+      <div class="banner-review__buttons">
+        <button class="btn btn--large btn--block btn--secondary" data-close-review>Not at all</button>
+        <button class="btn btn--large btn--block btn--primary banner-review__like" data-close-review><span class="icon" data-icon="likeFill"></span>I like it</button>
+      </div>
+      <button class="btn-icon banner-review__close" data-close-review aria-label="Close"><span class="icon" data-icon="closeCircular"></span></button>
+    </div>
+    <div class="mylist__container">
+      <nav class="tabs tabs--hug" id="mylist-tabs">${myListTabs}</nav>
+      <div class="mylist__summary">
+        <div class="view-switch" data-view="list">
+          <span class="view-switch__sel"></span>
+          <button class="view-switch__btn" data-switch="list" aria-label="List view"><span class="icon" data-icon="list"></span></button>
+          <button class="view-switch__btn" data-switch="grid" aria-label="Grid view"><span class="icon" data-icon="grid"></span></button>
+        </div>
+        <div id="mylist-total">${totals()}</div>
+      </div>
+      <label class="search">
+        <span class="icon" data-icon="lens"></span>
+        <input type="text" placeholder="Search for a product to add">
+      </label>
+      <div class="mylist__groups">
+        ${myList.map(s => `
+        <section class="list-group list-group--store" data-store="${s.negozio}">
+          <div class="list-group__title">
+            <div class="list-group__retailer"><span class="thumb"><img src="${s.logo}" alt=""></span><h2>${s.negozio}</h2></div>
+            ${groupButtons(true)}
+          </div>
+          <div class="list-group__flyer">
+            <div class="list-group__flyer-title"><h3>${s.volantino}</h3><span>${s.scadenza}</span></div>
+            <p>${s.indirizzo}</p>
+          </div>
+          <div class="list-group__items">${s.prodotti.map(p => productCard(p)).join("")}</div>
+          ${totals()}
+        </section>`).join("")}
+        <section class="list-group" data-store="other">
+          ${sectionHead("Other products", true)}
+          <div class="list-group__items">${otherProducts.map(([n, q, on]) => `
+            <div class="list-card list-card--custom ${on ? "is-checked" : ""}">
+              ${checkbox(on)}
+              <p class="list-card__info">${n}</p>
+              ${counter(q)}
+            </div>`).join("")}
+          </div>
+          <button class="btn btn--large btn--block btn--secondary list-group__add"><span class="icon" data-icon="add"></span>Add product</button>
+        </section>
+        <section class="list-group" data-store="expired">
+          ${sectionHead("Expired offers", false)}
+          <div class="list-group__items">${expiredOffers.map(p => productCard(p, true)).join("")}</div>
+        </section>
+      </div>
+    </div>
+  </div>`;
+
+// Totales: suma de lo que aún NO está marcado (precio × cantidad); "savings" = (precio sin oferta − precio) × cantidad.
+// Si el ahorro es 0, la fila "savings" no se muestra (como Expert en Figma).
+const listView = document.getElementById("view-mylist");
+const paintTotal = (el, total, saved) => {
+  el.querySelector(".list-total__total").textContent = "total " + euro(total);
+  el.querySelector(".list-total__savings strong").textContent = euro(saved);
+  el.querySelector(".list-total__savings").hidden = saved <= 0;
+};
+const updateTotals = () => {
+  let all = 0, allSaved = 0;
+  listView.querySelectorAll(".list-group--store").forEach(g => {
+    let total = 0, saved = 0;
+    g.querySelectorAll(".list-card").forEach(c => {
+      if (c.classList.contains("is-checked")) return;
+      const q = +c.querySelector(".counter__num").textContent, p = +c.dataset.price, old = +c.dataset.old || p;
+      total += p * q; saved += (old - p) * q;
+    });
+    paintTotal(g.querySelector(".list-total"), total, saved);
+    if (!g.hidden) { all += total; allSaved += saved; }
+  });
+  paintTotal(document.getElementById("mylist-total"), all, allSaved);
+};
+// Checkbox (marca / tacha) y contador − / + (mínimo 1) de cada fila
+const bindRow = row => {
+  const b = row.querySelector(".checkbox");
+  b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-checked") !== "true";
+    b.setAttribute("aria-checked", on);
+    row.classList.toggle("is-checked", on);
+    updateTotals();
+  });
+  row.querySelectorAll("[data-qty]").forEach(q => q.addEventListener("click", () => {
+    const num = q.parentElement.querySelector(".counter__num");
+    num.textContent = Math.max(1, +num.textContent + +q.dataset.qty);
+    updateTotals();
+  }));
+};
+listView.querySelectorAll(".list-card").forEach(bindRow);
+// Pestañas All / tienda: muestran todo o solo esa tienda
+const showListTab = tab => {
+  document.querySelectorAll("[data-listtab]").forEach(t => t.classList.toggle("tab-line--selected", t.dataset.listtab === tab));
+  listView.querySelectorAll(".list-group").forEach(g => g.hidden = g.dataset.deleted === "true" || (tab !== "all" && g.dataset.store !== tab && g.dataset.store !== "other"));
+  updateTotals();
+};
+document.querySelectorAll("[data-listtab]").forEach(t => t.addEventListener("click", () => showListTab(t.dataset.listtab)));
+// Papelera: borra el grupo entero (y su pestaña)
+listView.querySelectorAll("[data-delete-group]").forEach(b => b.addEventListener("click", () => {
+  const g = b.closest(".list-group");
+  g.dataset.deleted = "true";
+  const tabs = document.querySelectorAll(`[data-listtab="${g.dataset.store}"]`);
+  tabs.forEach(t => t.hidden = true);
+  if (tabs[0]?.classList.contains("tab-line--selected")) return showListTab("all");
+  showListTab(listView.querySelector(".tab-line--selected[data-listtab]").dataset.listtab);
+}));
+// Switch lista / cuadrícula (de momento solo cambia el switch: aún no hay diseño de la vista cuadrícula)
+listView.querySelectorAll("[data-switch]").forEach(b => b.addEventListener("click", () => {
+  b.closest(".view-switch").dataset.view = b.dataset.switch;
+}));
+listView.querySelectorAll("[data-close-review]").forEach(b => b.addEventListener("click", () => {
+  b.closest(".banner-review").hidden = true;
+}));
+updateTotals();
+
+// "Add product": añade al final de Other products una fila con campo de texto (Figma customProducts 71:3364).
+// Enter o salir del campo → se queda como producto normal; si está vacío, la fila desaparece.
+const svgIcon = name => `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ICONS[name]}</svg>`;
+listView.querySelector(".list-group__add").addEventListener("click", () => {
+  const items = listView.querySelector('[data-store="other"] .list-group__items');
+  const row = document.createElement("div");
+  row.className = "list-card list-card--custom";
+  row.innerHTML = `${checkbox(false)}
+    <input class="text-field list-card__field" type="text" placeholder="Product name" aria-label="Product name">
+    ${counter(1)}`;
+  row.querySelectorAll("[data-icon]").forEach(el => el.innerHTML = svgIcon(el.dataset.icon));
+  items.appendChild(row);
+  bindRow(row);
+  const field = row.querySelector("input");
+  const done = () => {
+    const name = field.value.trim();
+    if (!name) return row.remove();
+    const p = document.createElement("p");
+    p.className = "list-card__info"; p.textContent = name;
+    field.replaceWith(p);
+  };
+  field.addEventListener("keydown", e => { if (e.key === "Enter") field.blur(); });
+  field.addEventListener("blur", done, { once: true });
+  field.focus();
+});
+
+// Header reducido: al hacer scroll, cuando el título grande "My savings list" sale por arriba,
+// queda fijo un header compacto con el título pequeño centrado (las pestañas siguen con el scroll)
+const updateCompact = () => {
+  const phone = document.querySelector(".phone");
+  const header = document.querySelector(".header");
+  const titleBottom = document.querySelector(".mylist__title").getBoundingClientRect().bottom;
+  phone.classList.toggle("is-compact", phone.dataset.page === "mylist" && titleBottom <= header.offsetHeight + 8);
+};
+window.addEventListener("scroll", updateCompact, { passive: true });
+window.addEventListener("resize", updateCompact);
 
 // Detalle de cada tarjeta que tenga "dettaglio" (de momento solo Coop)
 const statusBar = document.querySelector(".status-bar").outerHTML;
@@ -596,7 +820,7 @@ document.querySelectorAll(".timetable__toggle").forEach(b => b.addEventListener(
 document.querySelectorAll("[data-close-detail]").forEach(b => b.addEventListener("click", () => closeDetail(b.closest(".card-detail"))));
 
 // =========================================================
-// BOTTOM NAV — cambiar de página (Home ↔ Favorites ↔ My cards ↔ Profile)
+// BOTTOM NAV — cambiar de página (Home ↔ Favorites ↔ My cards ↔ My list ↔ Profile)
 // =========================================================
 const showPage = page => {
   const home = page === "home";
@@ -607,6 +831,8 @@ const showPage = page => {
   document.getElementById("view-favorites").hidden = page !== "favorites";
   document.getElementById("view-cards").hidden = page !== "cards";
   document.getElementById("view-profile").hidden = page !== "profile";
+  document.getElementById("view-mylist").hidden = page !== "mylist";
+  document.querySelector(".phone").classList.remove("is-compact");
   // En la Home se vuelve a la pestaña que estaba seleccionada ("For you" o "+ Savings")
   const view = document.querySelector(".tab-line--selected[data-view]").dataset.view;
   document.getElementById("view-home").hidden = !(home && view === "home");
@@ -615,7 +841,7 @@ const showPage = page => {
 };
 document.querySelectorAll(".bottom-nav__tab").forEach(tab => tab.addEventListener("click", e => {
   e.preventDefault();
-  if (tab.dataset.page) showPage(tab.dataset.page); // My list todavía no tiene página
+  if (tab.dataset.page) showPage(tab.dataset.page);
 }));
 
 // Enlaces que llevan a otra página (p. ej. "Discover more" → Favorites, la misma página que la pestaña del bottom bar)

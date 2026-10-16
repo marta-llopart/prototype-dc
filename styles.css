@@ -127,6 +127,13 @@
   --color-surface-callout-02-start: var(--color-base-light);  /* Gradients surface/callout 02 */
   --color-surface-callout-02-end: #ffd8d9;
   --spacing-6xl: 48px;
+  /* My list */
+  --color-border-action-primary-inactive: var(--color-grey-700);
+  --color-surface-accent-05-subtler: var(--color-teal-100);
+  --color-content-accent-05-bolder: var(--color-teal-900);
+  --color-surface-accent-neutral-subtler: var(--color-grey-50);
+  --color-content-accent-neutral-bolder: var(--color-grey-950);
+  --color-content-disabled: var(--color-grey-500); /* texto tachado de productos sin precio */
 }
 
 /* Variante B para tests A/B: se activa añadiendo ?variante=b a la URL */

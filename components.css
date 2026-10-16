@@ -635,3 +635,133 @@ img { display: block; }
 .profile__id { display: flex; align-items: center; gap: var(--spacing-md); }
 .profile__copy { display: inline-flex; background: none; border: none; padding: 0; cursor: pointer; color: var(--color-content-subdued); }
 .menu-item--lg .tab-badge { margin-right: calc(var(--spacing-md) * -1); } /* badge pegado al chevron, como en Figma */
+
+/* =========================================================
+   MY LIST — página "My savings list" (Figma 63:2385 "iPhone_SAVING-LIST_list-view")
+   carouselTabCategories · switchIcons · search · cardProductAddList · customProducts · counter
+   ========================================================= */
+.mylist { display: flex; flex-direction: column; gap: var(--spacing-3xl); padding: var(--spacing-xl); }
+.mylist__title { font: var(--text-4xl); color: var(--color-content-default); }
+.mylist__container { display: flex; flex-direction: column; gap: var(--spacing-3xl); }
+
+/* pestañas por tienda: cada pestaña ocupa solo su texto */
+.tabs--hug { padding: 0; }
+.tabs--hug .tab-line { flex: 0 0 auto; }
+
+/* fila con el switch lista/cuadrícula y el total de la lista */
+.mylist__summary { display: flex; align-items: center; justify-content: space-between; height: 50px; }
+
+/* switchIcons (88×36) */
+.view-switch { position: relative; width: 88px; height: 36px; flex-shrink: 0; }
+.view-switch::before { /* borde */
+  content: ""; position: absolute; inset: 2px; border-radius: var(--radius-xl);
+  border: 2px solid var(--color-border-action-primary-selected);
+}
+.view-switch__sel { /* selección: mitad izquierda (lista) o derecha (cuadrícula) */
+  position: absolute; top: 1px; bottom: 1px; left: 1px; width: 43px;
+  border-radius: 100px 0 0 100px; background: var(--color-surface-action-primary-selected);
+  transition: transform .2s;
+}
+.view-switch[data-view="grid"] .view-switch__sel { transform: translateX(43px); border-radius: 0 100px 100px 0; }
+.view-switch__btn {
+  position: absolute; top: 6px; width: 24px; height: 24px; padding: 0;
+  border: none; background: none; cursor: pointer; color: var(--color-content-action-primary-selected);
+}
+.view-switch__btn[data-switch="list"] { left: 13px; }
+.view-switch__btn[data-switch="grid"] { right: 12px; }
+.view-switch[data-view="list"] [data-switch="list"],
+.view-switch[data-view="grid"] [data-switch="grid"] { color: var(--color-content-oninverse); }
+
+/* total + savings (alineado a la derecha) */
+.list-total { display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-xs); text-align: right; white-space: nowrap; }
+.list-total__total { font: var(--text-sm-bold); color: var(--color-content-subdued); }
+.list-total__savings { display: flex; align-items: baseline; justify-content: flex-end; gap: var(--spacing-md); color: var(--color-content-default); }
+.list-total__savings span { font: var(--text-xl-bold); }
+.list-total__savings strong { font: var(--text-2xl); }
+
+/* grupos (tienda / Other products / Expired offers) separados por un divider */
+.mylist__groups { display: flex; flex-direction: column; gap: var(--spacing-3xl); }
+.list-group { display: flex; flex-direction: column; gap: var(--spacing-xl); }
+.list-group:not([hidden]) ~ .list-group:not([hidden]) { border-top: 1px solid var(--color-border-default); padding-top: var(--spacing-3xl); }
+.list-group__title { display: flex; align-items: center; gap: var(--spacing-xl); }
+.list-group__retailer { flex: 1 0 0; min-width: 0; display: flex; align-items: center; gap: var(--spacing-xs); }
+.list-group__retailer h2 { font: var(--text-xl-bold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-group__retailer .thumb { width: 40px; height: 40px; border-width: 2px; }
+.list-group__buttons { display: flex; align-items: center; }
+.list-group__delete { color: var(--color-content-subdued-icon); }
+.list-group .section__text { min-width: 0; }
+.list-group__flyer { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.list-group__flyer-title { display: flex; align-items: baseline; gap: var(--spacing-xl); }
+.list-group__flyer-title h3 { flex: 1 0 0; min-width: 0; font: var(--text-2xl); color: var(--color-content-default); }
+.list-group__flyer-title span { font: var(--caption-bold); color: var(--color-content-subdued); white-space: nowrap; }
+.list-group__flyer p { font: var(--text-sm-bold); color: var(--color-content-subdued); }
+.list-group__items { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.list-group__add { gap: var(--spacing-xs); }
+
+/* cardProductAddList / customProducts */
+.list-card {
+  display: flex; align-items: center; gap: var(--spacing-md); padding: var(--spacing-md);
+  background: var(--color-surface-default); border-radius: var(--radius-md);
+}
+.list-card--custom { min-height: 72px; }
+.list-card__img {
+  position: relative; width: 104px; height: 104px; flex-shrink: 0; padding: 4px; overflow: hidden;
+  display: flex; align-items: flex-end; justify-content: flex-end;
+}
+.list-card__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.list-card__img::after { content: ""; position: absolute; inset: 0; box-shadow: var(--shadow-inner); pointer-events: none; }
+.list-card__img .tag { position: relative; }
+.tag--neutral { background: var(--color-surface-accent-neutral-subtler); color: var(--color-content-accent-neutral-bolder); }
+.tag--teal-light { background: var(--color-surface-accent-05-subtler); color: var(--color-content-accent-05-bolder); }
+.list-card__info { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; font: var(--text-sm-bold); color: var(--color-content-default); }
+.list-card__name { overflow-wrap: anywhere; }
+.list-card__price { color: var(--color-content-accent-01-regular); }
+.list-card__old { font: var(--text-sm); color: var(--color-content-subdued); text-decoration: line-through; }
+.list-card--custom .list-card__info { font: var(--text-sm); }
+/* marcado = ya en el carro: todo tachado y en gris */
+.list-card.is-checked .list-card__info { color: var(--color-content-subdued); text-decoration: line-through; }
+.list-card.is-checked .list-card__price { color: inherit; }
+.list-card--custom.is-checked .list-card__info { color: var(--color-content-disabled); }
+/* ofertas caducadas: imagen y texto al 40 % */
+.list-card--expired .list-card__img, .list-card--expired .list-card__info { opacity: .4; }
+
+/* checkBox (24×24) */
+.checkbox { position: relative; width: 24px; height: 24px; flex-shrink: 0; padding: 0; border: none; background: none; cursor: pointer; }
+.checkbox::before {
+  content: ""; position: absolute; inset: 2px; border-radius: 2px;
+  border: 2px solid var(--color-border-action-primary-inactive);
+}
+.checkbox svg { position: absolute; inset: 2px; width: 20px; height: 20px; display: none; }
+.checkbox[aria-checked="true"]::before { border: none; background: var(--color-surface-action-primary-selected); }
+.checkbox[aria-checked="true"] svg { display: block; }
+
+/* counter (− 1 +) */
+.counter {
+  display: flex; align-items: center; gap: var(--spacing-xs); height: 24px; flex-shrink: 0;
+  border: 1px solid var(--color-border-default); border-radius: var(--radius-xl);
+}
+.counter button {
+  width: 23px; height: 22px; padding: 0; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer; color: var(--color-content-subdued-icon);
+}
+.counter [data-qty="-1"] { border-right: 1px solid var(--color-border-default); border-radius: var(--radius-xl) 0 0 var(--radius-xl); }
+.counter [data-qty="1"] { border-left: 1px solid var(--color-border-default); border-radius: 0 var(--radius-xl) var(--radius-xl) 0; }
+.counter__num { width: 24px; text-align: center; font: var(--text-sm-bold); color: var(--color-content-default); }
+
+/* Header reducido de My list: título pequeño fijo bajo la status bar al hacer scroll */
+#header-mylist {
+  position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--color-surface-neutral); border-bottom: 1px solid var(--color-border-default);
+  opacity: 0; visibility: hidden; transition: opacity .15s, visibility .15s;
+}
+.phone:not([data-page="mylist"]) #header-mylist { display: none; }
+.phone.is-compact #header-mylist { opacity: 1; visibility: visible; }
+
+/* textField (Small, 40 px) — nombre del producto nuevo en Other products */
+.text-field {
+  flex: 1 0 0; min-width: 0; height: 40px; padding: 0 calc(var(--spacing-xl) - 1px);
+  background: var(--color-surface-input-default); border: 1px solid var(--color-border-input-default);
+  border-radius: 28px; outline: none; font: var(--text-sm); color: var(--color-content-default);
+}
+.text-field::placeholder { color: var(--color-content-input-text-default); opacity: 1; }
+.text-field:focus { border-color: var(--color-content-default); }
