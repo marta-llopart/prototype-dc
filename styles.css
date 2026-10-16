@@ -124,6 +124,9 @@
   --color-surface-callout-01-end: #ff7f6c;
   --color-content-accent-04-regular: var(--color-green-700);
   --color-border-accent-01-regular: var(--color-red-600);
+  --color-surface-callout-02-start: var(--color-base-light);  /* Gradients surface/callout 02 */
+  --color-surface-callout-02-end: #ffd8d9;
+  --spacing-6xl: 48px;
 }
 
 /* Variante B para tests A/B: se activa añadiendo ?variante=b a la URL */

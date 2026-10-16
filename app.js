@@ -434,6 +434,73 @@ document.getElementById("view-cards").innerHTML = `
   </div>
   <button class="btn btn--large btn--primary btn-floating">+ Add a card</button>`;
 
+// =========================================================
+// PÁGINA PROFILE (Figma "Profile", 50:8691)
+// Login social + bannersReview + listItemsMenu + versión / ID
+// =========================================================
+const profileMenu = [
+  // [icono, texto, badge (número o null)]
+  ["notification", "Notifications", 3],
+  ["inbox", "News", 4],
+  ["location", "Location", null],
+  ["grid", "Card view", null],
+  ["likeFill", "Share your opinion", null],
+  ["info", "Info &amp; Contacts", null],
+  ["invite", "Invite a friend", null],
+  ["lock", "Privacy", null],
+  ["megaphone", "Preferences", null],
+];
+const profileId = "257ede89-bf7c-4770-bc2d-f815e10aa32c";
+document.getElementById("view-profile").innerHTML = `
+  <div class="profile">
+    <div class="profile__main">
+      <h1 class="profile__title">Profile</h1>
+      <div class="profile__login">
+        <p class="profile__login-title">Want to save your preferences?<br>Log in or sign up</p>
+        <div class="profile__social">
+          <button class="btn btn--large btn--block btn--google"><img src="img/profile/google-logo.svg" width="24" height="24" alt="">Continue with Google</button>
+          <button class="btn btn--large btn--block btn--apple"><span class="icon" data-icon="apple"></span>Continue with Apple</button>
+        </div>
+        <p class="profile__legal">By continuing you accept the <a href="#">Terms and conditions</a> and the <a href="#">Privacy policy</a></p>
+      </div>
+      <hr class="divider">
+      <div class="banner-review">
+        <div class="banner-review__head">
+          <img src="img/profile/artwork-heart.svg" width="62" height="56" alt="">
+          <p>Do you like the DoveConviene app?</p>
+        </div>
+        <div class="banner-review__buttons">
+          <button class="btn btn--large btn--block btn--secondary" data-close-review>Not at all</button>
+          <button class="btn btn--large btn--block btn--primary banner-review__like" data-close-review><span class="icon" data-icon="likeFill"></span>I like it</button>
+        </div>
+        <button class="btn-icon banner-review__close" data-close-review aria-label="Close"><span class="icon" data-icon="closeCircular"></span></button>
+      </div>
+      <div class="menu-list menu-list--profile">
+        ${profileMenu.map(([ic, t, n]) => `
+        <a class="menu-item menu-item--lg" href="#">
+          <span class="menu-item__text"><span class="icon" data-icon="${ic}"></span>${t}</span>
+          ${n ? `<span class="tab-badge">${n}</span>` : ""}
+          <span class="menu-item__chevron"><span class="icon" data-icon="chevronRight"></span></span>
+        </a>`).join("")}
+      </div>
+    </div>
+    <div class="profile__footer">
+      <p>Version 10.52.1 #1164</p>
+      <div class="profile__id">
+        <p>ID: ${profileId}</p>
+        <button class="profile__copy" aria-label="Copy ID"><span class="icon" data-icon="copy"></span></button>
+      </div>
+    </div>
+  </div>`;
+// La X o cualquiera de los dos botones cierran el banner "Do you like the DoveConviene app?"
+document.querySelectorAll("[data-close-review]").forEach(b => b.addEventListener("click", () => {
+  document.querySelector(".banner-review").hidden = true;
+}));
+// El icono de copiar copia el ID al portapapeles
+document.querySelector(".profile__copy").addEventListener("click", () => {
+  navigator.clipboard?.writeText(profileId).catch(() => {});
+});
+
 // Detalle de cada tarjeta que tenga "dettaglio" (de momento solo Coop)
 const statusBar = document.querySelector(".status-bar").outerHTML;
 const cardDetail = (c, i) => `
@@ -529,7 +596,7 @@ document.querySelectorAll(".timetable__toggle").forEach(b => b.addEventListener(
 document.querySelectorAll("[data-close-detail]").forEach(b => b.addEventListener("click", () => closeDetail(b.closest(".card-detail"))));
 
 // =========================================================
-// BOTTOM NAV — cambiar de página (Home ↔ Favorites ↔ My cards)
+// BOTTOM NAV — cambiar de página (Home ↔ Favorites ↔ My cards ↔ Profile)
 // =========================================================
 const showPage = page => {
   const home = page === "home";
@@ -539,6 +606,7 @@ const showPage = page => {
   document.getElementById("header-favorites").hidden = page !== "favorites";
   document.getElementById("view-favorites").hidden = page !== "favorites";
   document.getElementById("view-cards").hidden = page !== "cards";
+  document.getElementById("view-profile").hidden = page !== "profile";
   // En la Home se vuelve a la pestaña que estaba seleccionada ("For you" o "+ Savings")
   const view = document.querySelector(".tab-line--selected[data-view]").dataset.view;
   document.getElementById("view-home").hidden = !(home && view === "home");
@@ -547,7 +615,7 @@ const showPage = page => {
 };
 document.querySelectorAll(".bottom-nav__tab").forEach(tab => tab.addEventListener("click", e => {
   e.preventDefault();
-  if (tab.dataset.page) showPage(tab.dataset.page); // My list y Profile todavía no tienen página
+  if (tab.dataset.page) showPage(tab.dataset.page); // My list todavía no tiene página
 }));
 
 // Enlaces que llevan a otra página (p. ej. "Discover more" → Favorites, la misma página que la pestaña del bottom bar)

@@ -591,3 +591,47 @@ img { display: block; }
 }
 .info-panel__note { border: none; outline: none; background: none; padding: 0; font: var(--text-sm); color: var(--color-content-default); }
 .info-panel__note::placeholder { color: var(--color-content-input-text-default); opacity: 1; }
+
+/* =========================================================
+   PROFILE — página "Profile" (Figma 50:8691)
+   Fondo: Gradients surface/callout 02 · buttonSocial · bannersReview · listItemsMenu
+   ========================================================= */
+.phone[data-page="profile"] {
+  background: linear-gradient(115.68deg, var(--color-surface-callout-02-start) 19.94%, var(--color-surface-callout-02-end) 95.42%);
+}
+/* sin top bar: la status bar va con la página (no fija) y sin fondo propio */
+.phone[data-page="profile"] .header { position: relative; background: transparent; }
+
+.profile { display: flex; flex-direction: column; gap: var(--spacing-6xl); padding: var(--spacing-xl); }
+.profile__main { display: flex; flex-direction: column; gap: var(--spacing-3xl); }
+.profile__title { font: var(--text-4xl); color: var(--color-content-default); }
+.profile__login { display: flex; flex-direction: column; gap: var(--spacing-3xl); }
+.profile__login-title { font: var(--text-md-bold); text-align: center; }
+.profile__social { display: flex; flex-direction: column; gap: var(--spacing-md); align-items: center; }
+.profile__legal { font: var(--text-sm); color: var(--color-content-subdued); text-align: center; }
+.profile__legal a { color: inherit; text-decoration: underline; }
+
+/* buttonSocial (Google) / iosButtonSocial (Apple): colores de marca, no del design system */
+.btn--google { background: #fff; border-color: #747775; color: #1f1f1f; min-width: 258px; }
+.btn--apple { background: #000; color: #fff; min-width: 258px; }
+
+/* bannersReview */
+.banner-review {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-xl);
+  padding: var(--spacing-xl); border-radius: var(--radius-md); background: var(--color-surface-default); overflow: hidden;
+}
+.banner-review__head { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-xs); width: 100%; }
+.banner-review__head p { font: var(--text-xl-bold); text-align: center; }
+.banner-review__buttons { display: flex; flex-direction: column; gap: var(--spacing-md); width: 100%; align-items: center; }
+.banner-review__like { gap: var(--spacing-xs); }
+.banner-review__close { position: absolute; top: 0; right: 0; color: var(--color-content-subdued-icon); }
+
+/* listItemsMenu con icono, badge opcional y chevron (72 px de alto) */
+.menu-list--profile { padding-right: 0; }
+.menu-item--lg { height: auto; }
+.menu-item--lg .menu-item__text { min-width: 0; white-space: nowrap; }
+
+.profile__footer { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-md); font: var(--text-sm); color: var(--color-content-subdued); text-align: center; }
+.profile__id { display: flex; align-items: center; gap: var(--spacing-md); }
+.profile__copy { display: inline-flex; background: none; border: none; padding: 0; cursor: pointer; color: var(--color-content-subdued); }
+.menu-item--lg .tab-badge { margin-right: calc(var(--spacing-md) * -1); } /* badge pegado al chevron, como en Figma */
